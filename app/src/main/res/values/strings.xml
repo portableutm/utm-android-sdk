@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Portable UTM Android Client</string>
+    <string name="endpoint">EndPoint</string>
+    <string name="username">User</string>
+    <string name="password">Password</string>
+    <string name="login">LogIn</string>
+    <string name="result">Token</string>
+    <string name="vehicles">Vehicles</string>
+    <string name="operations">Operations</string>
+
+    <string name="number">Number:</string>
+    <string name="model">Model:</string>
+    <string name="manufacturer">Manufacturer:</string>
+    <string name="type">Type:</string>
+    <string name="registeredby">Registered by:</string>
+    <string name="owner">Owner:</string>
+    <string name="date">Date:</string>
+    <string name="faa">FAA:</string>
+    <string name="uvin">Uvin:</string>
+
+    <string name="test_vehicles">Test getVehicles()</string>
+</resources>
