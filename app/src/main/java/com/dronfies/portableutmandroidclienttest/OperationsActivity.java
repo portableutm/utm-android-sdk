@@ -39,7 +39,7 @@ public class OperationsActivity extends AppCompatActivity {
         operationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent next = new Intent(getApplicationContext(), VehicleInfo.class);
+                Intent next = new Intent(getApplicationContext(), OperationInfo.class);
                 next.putExtra("operation", operation.getId());
                 next.putExtra("utmEndpoint",utmEndpoint);
                 startActivity(next);

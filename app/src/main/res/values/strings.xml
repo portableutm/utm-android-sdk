@@ -18,5 +18,15 @@
     <string name="faa">FAA:</string>
     <string name="uvin">Uvin:</string>
 
+    <string name="description">Description:</string>
+    <string name="startDate">Start:</string>
+    <string name="endDate">End:</string>
+    <string name="maxAltitude">Max Altitude:</string>
+    <string name="pilotName">Pilot:</string>
+    <string name="pilotPhone">Phone:</string>
+    <string name="droneId">Drone ID:</string>
+    <string name="droneDescription">Drone Description:</string>
+    <string name="flightComments">Flight Comments:</string>
+
     <string name="test_vehicles">Test getVehicles()</string>
 </resources>

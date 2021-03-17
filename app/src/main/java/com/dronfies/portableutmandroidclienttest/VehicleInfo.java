@@ -26,16 +26,16 @@ public class VehicleInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_info);
 
-        mNumber = findViewById(R.id.activity_number);
-        mModel = findViewById(R.id.activity_Model);
-        mManufacturer = findViewById(R.id.activity_Manufacter);
-        mType = findViewById(R.id.activity_VehicleType);
-        mRegisteredBy = findViewById(R.id.activity_registeredBy);
-        mOwner = findViewById(R.id.activity_owner);
-        mDate = findViewById(R.id.activity_registerDate);
-        mFaa = findViewById(R.id.activity_faaNumber);
-        mUvin = findViewById(R.id.activity_uvin);
-        mName = findViewById(R.id.activity_VehicleName);
+        mNumber = findViewById(R.id.activity_description);
+        mModel = findViewById(R.id.activity_startDate);
+        mManufacturer = findViewById(R.id.activity_maxAltitude);
+        mType = findViewById(R.id.activity_pilotName);
+        mRegisteredBy = findViewById(R.id.activity_pilotPhone);
+        mOwner = findViewById(R.id.activity_droneId);
+        mDate = findViewById(R.id.activity_droneDescription);
+        mFaa = findViewById(R.id.activity_owner);
+        mUvin = findViewById(R.id.activity_flightComments);
+        mName = findViewById(R.id.activity_opId);
 
         id = getIntent().getStringExtra("vehicle");
         endPoint = getIntent().getStringExtra("utmEndpoint");
