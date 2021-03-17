@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DronfiesUssServices dronfiesUssServices = DronfiesUssServices.getInstance("https://utm.dronfies.com.br:3000");
-        dronfiesUssServices.logout();
-
         mEndPoint = (EditText) findViewById(R.id.et_endpoint);
         mUsername = (EditText) findViewById(R.id.et_username);
         mPassword = (EditText) findViewById(R.id.et_password);

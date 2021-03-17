@@ -32,7 +32,6 @@ public class VehiclesActivity extends AppCompatActivity {
 
 
     private void addVehicle(Vehicle vehicle) {
-        int dpProjectHeight = UIGenericUtils.ConvertDPToPX(this, 126);
         View vehicleView = getLayoutInflater().inflate(R.layout.layout_vehicle,null);
         vehicleView.setOnClickListener(new View.OnClickListener() {
             @Override

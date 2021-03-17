@@ -22,7 +22,6 @@
         android:ems="10"
         android:hint="@string/endpoint"
         android:inputType="textPersonName"
-        android:text="https://utm.dronfies.com.br:3000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +75,6 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:text="1234"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_username" />
@@ -89,7 +87,6 @@
         android:ems="10"
         android:hint="@string/login"
         android:inputType="textPersonName"
-        android:text="emi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_endpoint" />
