@@ -1,0 +1,233 @@
+{
+  "gufi": "a192e951-a773-488c-a3aa-fbf0f2f6be27",
+  "name": "testName",
+  "uss_name": null,
+  "discovery_reference": null,
+  "submit_time": "2021-03-09T14:42:02.000Z",
+  "update_time": "2021-03-09T18:14:30.273Z",
+  "aircraft_comments": null,
+  "flight_comments": "",
+  "volumes_description": "Simple polygon",
+  "airspace_authorization": null,
+  "flight_number": "",
+  "state": "CLOSED",
+  "controller_location": null,
+  "gcs_location": null,
+  "faa_rule": "0",
+  "contact": "",
+  "contact_phone": "",
+  "priority_elements": {
+    "priority_level": "1",
+    "priority_status": "EMERGENCY_AIR_AND_GROUND_IMPACT"
+  },
+  "owner": {
+    "username": "emi",
+    "firstName": "Alon",
+    "lastName": "Alon",
+    "email": "emialonzo@gmai.com",
+    "role": "pilot",
+    "VolumesOfInterest": null,
+    "settings": {
+      "langauge": "EN"
+    },
+    "dinacia_user": {
+      "id": "e397bb46-0da0-4bcb-8f4f-26625b8857d4",
+      "address": "av si",
+      "document_type": "ci",
+      "document_number": "789",
+      "phone": "0987",
+      "cellphone": "7890",
+      "nationality": "uy",
+      "permit_expire_date": null,
+      "document_file_path": "src/uploads/1612292814728-692557185-Captura de Pantalla 2021-01-25 a la(s) 11.24.05.png.jpg",
+      "permit_front_file_path": "src/uploads/1612292814729-117991713-Captura de Pantalla 2021-01-25 a la(s) 11.24.08.png.jpg",
+      "permit_back_file_path": "src/uploads/1612292814730-685941669-Captura de Pantalla 2021-01-25 a la(s) 11.24.11.png.jpg",
+      "dinacia_company": null
+    }
+  },
+  "operation_volumes": [
+    {
+      "id": 421,
+      "ordinal": 0,
+      "volume_type": null,
+      "near_structure": null,
+      "effective_time_begin": "2021-03-09T17:44:02.000Z",
+      "effective_time_end": "2021-03-09T18:14:02.000Z",
+      "actual_time_end": null,
+      "min_altitude": "-1",
+      "max_altitude": "100",
+      "operation_geography": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.164398,
+              -34.920602
+            ],
+            [
+              -56.164398,
+              -34.906807
+            ],
+            [
+              -56.15186,
+              -34.906807
+            ],
+            [
+              -56.15186,
+              -34.920602
+            ],
+            [
+              -56.164398,
+              -34.920602
+            ]
+          ]
+        ]
+      },
+      "beyond_visual_line_of_sight": true
+    }
+  ],
+  "uas_registrations": [
+    {
+      "uvin": "e4278f4f-497c-4bde-b7a2-560db61f5420",
+      "date": "2021-02-25T20:29:10.410Z",
+      "nNumber": "",
+      "faaNumber": "",
+      "vehicleName": " Alta de drone flujo",
+      "manufacturer": "dji",
+      "model": " a",
+      "class": "a",
+      "accessType": null,
+      "vehicleTypeId": null,
+      "org-uuid": null,
+      "trackerId": null,
+      "authorized": "AUTHORIZED",
+      "registeredBy": {
+        "username": "emi",
+        "firstName": "Alon",
+        "lastName": "Alon",
+        "email": "emialonzo@gmai.com",
+        "role": "pilot",
+        "VolumesOfInterest": null,
+        "settings": {
+          "langauge": "EN"
+        },
+        "dinacia_user": {
+          "id": "e397bb46-0da0-4bcb-8f4f-26625b8857d4",
+          "address": "av si",
+          "document_type": "ci",
+          "document_number": "789",
+          "phone": "0987",
+          "cellphone": "7890",
+          "nationality": "uy",
+          "permit_expire_date": null,
+          "document_file_path": "src/uploads/1612292814728-692557185-Captura de Pantalla 2021-01-25 a la(s) 11.24.05.png.jpg",
+          "permit_front_file_path": "src/uploads/1612292814729-117991713-Captura de Pantalla 2021-01-25 a la(s) 11.24.08.png.jpg",
+          "permit_back_file_path": "src/uploads/1612292814730-685941669-Captura de Pantalla 2021-01-25 a la(s) 11.24.11.png.jpg",
+          "dinacia_company": null
+        }
+      },
+      "owner": {
+        "username": "emi",
+        "firstName": "Alon",
+        "lastName": "Alon",
+        "email": "emialonzo@gmai.com",
+        "role": "pilot",
+        "VolumesOfInterest": null,
+        "settings": {
+          "langauge": "EN"
+        },
+        "dinacia_user": {
+          "id": "e397bb46-0da0-4bcb-8f4f-26625b8857d4",
+          "address": "av si",
+          "document_type": "ci",
+          "document_number": "789",
+          "phone": "0987",
+          "cellphone": "7890",
+          "nationality": "uy",
+          "permit_expire_date": null,
+          "document_file_path": "src/uploads/1612292814728-692557185-Captura de Pantalla 2021-01-25 a la(s) 11.24.05.png.jpg",
+          "permit_front_file_path": "src/uploads/1612292814729-117991713-Captura de Pantalla 2021-01-25 a la(s) 11.24.08.png.jpg",
+          "permit_back_file_path": "src/uploads/1612292814730-685941669-Captura de Pantalla 2021-01-25 a la(s) 11.24.11.png.jpg",
+          "dinacia_company": null
+        }
+      },
+      "operators": [],
+      "dinacia_vehicle": {
+        "id": "dbdc69cf-cebf-4730-82ec-6abb96c4b72f",
+        "authorized": false,
+        "caa_registration": "CX-2021-9",
+        "serial_number_file_path": "https://utm.dronfies.com.br:3000/uploads/1614284949971-266139795-serial_number_file.jpg",
+        "usage": "a",
+        "construction_material": "a",
+        "year": "2021",
+        "serial_number": "a",
+        "empty_weight": null,
+        "max_weight": null,
+        "takeoff_method": null,
+        "sensor_type_and_mark": null,
+        "packing": null,
+        "longitude": null,
+        "height": null,
+        "color": null,
+        "max_speed": null,
+        "cruise_speed": null,
+        "landing_speed": null,
+        "time_autonomy": null,
+        "radio_accion": null,
+        "ceiling": null,
+        "communication_control_system_command_navigation_vigilance": null,
+        "maintenance_inspections": null,
+        "remarks": null,
+        "engine_manufacturer": null,
+        "engine_type": null,
+        "engine_model": null,
+        "engine_power": null,
+        "engine_fuel": null,
+        "engine_quantity_batteries": null,
+        "propeller_type": null,
+        "propeller_model": null,
+        "propeller_material": null,
+        "remote_sensor_file_path": "https://utm.dronfies.com.br:3000/uploads/1614284950180-907604356-remote_sensor_file.jpg",
+        "remote_sensor_id": "a"
+      }
+    }
+  ],
+  "creator": {
+    "username": "emi",
+    "firstName": "Alon",
+    "lastName": "Alon",
+    "email": "emialonzo@gmai.com",
+    "role": "pilot",
+    "VolumesOfInterest": null,
+    "settings": {
+      "langauge": "EN"
+    },
+    "dinacia_user": {
+      "id": "e397bb46-0da0-4bcb-8f4f-26625b8857d4",
+      "address": "av si",
+      "document_type": "ci",
+      "document_number": "789",
+      "phone": "0987",
+      "cellphone": "7890",
+      "nationality": "uy",
+      "permit_expire_date": null,
+      "document_file_path": "src/uploads/1612292814728-692557185-Captura de Pantalla 2021-01-25 a la(s) 11.24.05.png.jpg",
+      "permit_front_file_path": "src/uploads/1612292814729-117991713-Captura de Pantalla 2021-01-25 a la(s) 11.24.08.png.jpg",
+      "permit_back_file_path": "src/uploads/1612292814730-685941669-Captura de Pantalla 2021-01-25 a la(s) 11.24.11.png.jpg",
+      "dinacia_company": null
+    }
+  },
+  "contingency_plans": [],
+  "negotiation_agreements": [
+    {
+      "message_id": "b26b1e5a-b9c4-40dc-8c90-2daa6b62549b",
+      "negotiation_id": null,
+      "uss_name": "",
+      "uss_name_of_originator": "",
+      "uss_name_of_receiver": "",
+      "free_text": "",
+      "discovery_reference": "",
+      "type": ""
+    }
+  ]
+}

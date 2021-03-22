@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeAll;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 class VehicleTest {
 

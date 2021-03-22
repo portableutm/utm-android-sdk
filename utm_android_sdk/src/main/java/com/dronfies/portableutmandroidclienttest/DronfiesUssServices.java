@@ -293,7 +293,6 @@ public class DronfiesUssServices {
             throw new Exception(response.code() + " ("+response.getClass()+")");
         }
         JsonObject jsonObject = new Gson().toJsonTree((Map<?, List<?>>)response.body()).getAsJsonObject();
-        Log.d("PORTABLEUTMMMMM", "op: " + jsonObject);
         return getOperationFromJsonObject(jsonObject);
     }
 

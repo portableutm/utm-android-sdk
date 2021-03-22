@@ -1,0 +1,228 @@
+{
+  "name": "PruebaRenzo (espero que esto no te llegue Sebastián)",
+  "owner": "emi",
+  "contact": "Alon Alon (emi)",
+  "contact_phone": "0987",
+  "aircraft_comments": null,
+  "flight_comments": "Esperemos que esta operación no haga spam",
+  "volumes_description": "v0.1",
+  "airspace_authorization": null,
+  "controller_location": {
+    "type": "Point",
+    "coordinates": [
+      -56.15970075130463,
+      -34.9119507320875
+    ]
+  },
+  "gcs_location": null,
+  "faa_rule": null,
+  "operation_volumes": [
+    {
+      "ordinal": 0,
+      "volume_type": null,
+      "near_structure": false,
+      "effective_time_begin": "2021-03-22T19:55:23.947Z",
+      "effective_time_end": "2021-03-22T20:55:23.947Z",
+      "actual_time_end": null,
+      "min_altitude": 0,
+      "max_altitude": 120,
+      "operation_geography": {
+        "coordinates": [
+          [
+            [
+              -56.16794254073233,
+              -34.90592613843865
+            ],
+            [
+              -56.17086084859079,
+              -34.888889352172065
+            ],
+            [
+              -56.12502624869608,
+              -34.89184640320314
+            ],
+            [
+              -56.13669948012994,
+              -34.910853475534736
+            ],
+            [
+              -56.16794254073233,
+              -34.90592613843865
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "beyond_visual_line_of_sight": false,
+      "id": 424
+    }
+  ],
+  "uas_registrations": [
+    {
+      "uvin": "e4278f4f-497c-4bde-b7a2-560db61f5420",
+      "date": "2021-02-25T20:29:10.410Z",
+      "nNumber": "",
+      "faaNumber": "",
+      "vehicleName": " Alta de drone flujo",
+      "manufacturer": "dji",
+      "model": " a",
+      "class": "a",
+      "accessType": null,
+      "vehicleTypeId": null,
+      "org-uuid": null,
+      "trackerId": null,
+      "authorized": "AUTHORIZED",
+      "registeredBy": {
+        "username": "emi",
+        "firstName": "Alon",
+        "lastName": "Alon",
+        "email": "emialonzo@gmai.com",
+        "role": "pilot",
+        "VolumesOfInterest": null,
+        "settings": {
+          "langauge": "EN"
+        },
+        "dinacia_user": {
+          "id": "e397bb46-0da0-4bcb-8f4f-26625b8857d4",
+          "address": "av si",
+          "document_type": "ci",
+          "document_number": "789",
+          "phone": "0987",
+          "cellphone": "7890",
+          "nationality": "uy",
+          "permit_expire_date": null,
+          "document_file_path": "src/uploads/1612292814728-692557185-Captura de Pantalla 2021-01-25 a la(s) 11.24.05.png.jpg",
+          "permit_front_file_path": "src/uploads/1612292814729-117991713-Captura de Pantalla 2021-01-25 a la(s) 11.24.08.png.jpg",
+          "permit_back_file_path": "src/uploads/1612292814730-685941669-Captura de Pantalla 2021-01-25 a la(s) 11.24.11.png.jpg",
+          "dinacia_company": null
+        }
+      },
+      "owner": {
+        "username": "emi",
+        "firstName": "Alon",
+        "lastName": "Alon",
+        "email": "emialonzo@gmai.com",
+        "role": "pilot",
+        "VolumesOfInterest": null,
+        "settings": {
+          "langauge": "EN"
+        },
+        "dinacia_user": {
+          "id": "e397bb46-0da0-4bcb-8f4f-26625b8857d4",
+          "address": "av si",
+          "document_type": "ci",
+          "document_number": "789",
+          "phone": "0987",
+          "cellphone": "7890",
+          "nationality": "uy",
+          "permit_expire_date": null,
+          "document_file_path": "src/uploads/1612292814728-692557185-Captura de Pantalla 2021-01-25 a la(s) 11.24.05.png.jpg",
+          "permit_front_file_path": "src/uploads/1612292814729-117991713-Captura de Pantalla 2021-01-25 a la(s) 11.24.08.png.jpg",
+          "permit_back_file_path": "src/uploads/1612292814730-685941669-Captura de Pantalla 2021-01-25 a la(s) 11.24.11.png.jpg",
+          "dinacia_company": null
+        }
+      },
+      "operators": [],
+      "dinacia_vehicle": {
+        "id": "dbdc69cf-cebf-4730-82ec-6abb96c4b72f",
+        "authorized": false,
+        "caa_registration": "CX-2021-9",
+        "serial_number_file_path": "https://utm.dronfies.com.br:3000/uploads/1614284949971-266139795-serial_number_file.jpg",
+        "usage": "a",
+        "construction_material": "a",
+        "year": "2021",
+        "serial_number": "a",
+        "empty_weight": null,
+        "max_weight": null,
+        "takeoff_method": null,
+        "sensor_type_and_mark": null,
+        "packing": null,
+        "longitude": null,
+        "height": null,
+        "color": null,
+        "max_speed": null,
+        "cruise_speed": null,
+        "landing_speed": null,
+        "time_autonomy": null,
+        "radio_accion": null,
+        "ceiling": null,
+        "communication_control_system_command_navigation_vigilance": null,
+        "maintenance_inspections": null,
+        "remarks": null,
+        "engine_manufacturer": null,
+        "engine_type": null,
+        "engine_model": null,
+        "engine_power": null,
+        "engine_fuel": null,
+        "engine_quantity_batteries": null,
+        "propeller_type": null,
+        "propeller_model": null,
+        "propeller_material": null,
+        "remote_sensor_file_path": "https://utm.dronfies.com.br:3000/uploads/1614284950180-907604356-remote_sensor_file.jpg",
+        "remote_sensor_id": "a"
+      }
+    }
+  ],
+  "priority_elements": {
+    "priority_level": 1,
+    "priority_status": "EMERGENCY_AIR_AND_GROUND_IMPACT"
+  },
+  "contingency_plans": [
+    {
+      "contingency_cause": [
+        "ENVIRONMENTAL",
+        "LOST_NAV"
+      ],
+      "contingency_location_description": "OPERATOR_UPDATED",
+      "contingency_polygon": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.15438461303711,
+              -34.905501548851106
+            ],
+            [
+              -56.15138053894043,
+              -34.90873940129964
+            ],
+            [
+              -56.14889144897461,
+              -34.907437236859494
+            ],
+            [
+              -56.15112304687499,
+              -34.9059942737644
+            ],
+            [
+              -56.15438461303711,
+              -34.905501548851106
+            ]
+          ]
+        ]
+      },
+      "contingency_response": "LANDING",
+      "free_text": "Texto libre DE prueba",
+      "loiter_altitude": 30,
+      "relative_preference": 30,
+      "relevant_operation_volumes": [
+        1,
+        0
+      ],
+      "valid_time_begin": "2019-12-11T19:59:10Z",
+      "valid_time_end": "2019-12-11T20:59:10Z",
+      "contingency_id": 378
+    }
+  ],
+  "negotiation_agreements": [],
+  "submit_time": "2021-03-22T19:56:13.920Z",
+  "creator": {
+    "username": "emi"
+  },
+  "state": "PROPOSED",
+  "uss_name": null,
+  "discovery_reference": null,
+  "flight_number": null,
+  "gufi": "7480bdfc-45f4-4a29-90cd-189ddf706409",
+  "update_time": "2021-03-22T19:56:22.952Z"
+}
