@@ -1,30 +1,33 @@
 package com.dronfies.portableutmandroidclienttest;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dronfies.portableutmandroidclienttest.entities.Operation;
 
-public class OperationInfo extends AppCompatActivity {
+public class OperationInfoActivity extends AppCompatActivity {
 
-    String id;
-    String endPoint;
+    private String id;
+    private String endPoint;
 
-    TextView mDescription;
-    TextView mStart;
-    TextView mEnd;
-    TextView mMaxAltitude;
-    TextView mPilot;
-    TextView mPhone;
-    TextView mDroneId;
-    TextView mDroneDescription;
-    TextView mOwner;
-    TextView mComments;
-    TextView mId;
-    TextView mStatus;
+    private TextView mDescription;
+    private TextView mStart;
+    private TextView mEnd;
+    private TextView mMaxAltitude;
+    private TextView mPilot;
+    private TextView mPhone;
+    private TextView mDroneId;
+    private TextView mDroneDescription;
+    private TextView mOwner;
+    private TextView mComments;
+    private TextView mId;
+    private TextView mStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class OperationInfo extends AppCompatActivity {
         mComments = findViewById(R.id.activity_flightComments);
         mId = findViewById(R.id.activity_opId);
         mStatus = findViewById(R.id.activity_status);
+        ((Button)findViewById(R.id.button_change_state)).setOnClickListener(v -> onClickChangeState());
         
         id = getIntent().getStringExtra("operation");
         endPoint = getIntent().getStringExtra("utmEndpoint");
@@ -54,6 +58,22 @@ public class OperationInfo extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    private void onClickChangeState(){
+        LinearLayout view = new LinearLayout(this);
+        view.setOrientation(LinearLayout.VERTICAL);
+        for(Operation.EnumOperationState state : Operation.EnumOperationState.values()){
+            Button button = new Button(this);
+            button.setText(state.toString());
+            button.setOnClickListener(v -> updateOperationState(state));
+            view.addView(button);
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.select_state))
+                .setView(view)
+                .create()
+                .show();
     }
 
     private void load(String endPoint) {
@@ -107,5 +127,16 @@ public class OperationInfo extends AppCompatActivity {
         } catch (Exception e) {
             Log.d("ERRORonOperations", e.getMessage(), e);
         }
+    }
+
+    private void updateOperationState(Operation.EnumOperationState state){
+        new Thread(() -> {
+            try{
+                DronfiesUssServices.getInstance(endPoint).updateOperationState(id, state);
+                runOnUiThread(() -> mStatus.setText(state.toString()));
+            }catch (Exception ex){
+                runOnUiThread(() -> UIGenericUtils.ShowToast(this, String.format("error: %s", ex.getMessage())));
+            }
+        }).start();
     }
 }

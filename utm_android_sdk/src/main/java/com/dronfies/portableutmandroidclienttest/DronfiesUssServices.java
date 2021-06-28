@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.dronfies.portableutmandroidclienttest.entities.GPSCoordinates;
 import com.dronfies.portableutmandroidclienttest.entities.ICompletitionCallback;
+import com.dronfies.portableutmandroidclienttest.exception.BadRequestException;
+import com.dronfies.portableutmandroidclienttest.exception.NotFoundException;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -342,6 +344,42 @@ public class DronfiesUssServices {
         return ret;
     }
 
+    public List<Endpoint> getEndpoints() throws Exception {
+        String responseBody = api.getEndpoints().execute().body().string();
+        JSONArray jsonArrayEndpoints = new JSONArray(responseBody);
+        List<Endpoint> result = new ArrayList<>();
+        for(int i = 0; i < jsonArrayEndpoints.length(); i++){
+            JSONObject jsonObject = jsonArrayEndpoints.getJSONObject(i);
+            String name = jsonObject.get("name") + "";
+            String backendEndpoint = jsonObject.get("endpoint") + "";
+            String frontendEndpoint = jsonObject.get("frontendEndpoint") + "";
+            String countryCode = jsonObject.get("country") + "";
+            result.add(new Endpoint(name, backendEndpoint, frontendEndpoint, countryCode));
+        }
+        return result;
+    }
+
+    public String getEndpoint(String username) throws Exception {
+        Response<ResponseBody> response = api.getEndpoint(authToken, username).execute();
+        if(response.code() != 200){
+            handleErrorResponse(response);
+        }
+        String responseBody = response.body().string();
+        JSONObject jsonObject = new JSONObject(responseBody);
+        if(!jsonObject.has("endpoint")){
+            throw new Exception("500: Response body hasn't got the 'endpoint' key");
+        }
+        return jsonObject.get("endpoint") + "";
+    }
+
+    public void updateOperationState(String operationId, com.dronfies.portableutmandroidclienttest.entities.Operation.EnumOperationState state) throws Exception {
+        UpdateStateRequestBody requestBody = new UpdateStateRequestBody(state.name());
+        Response<ResponseBody> response = api.updateOperationState(authToken, operationId, requestBody).execute();
+        if(response.code() != 200){
+            handleErrorResponse(response);
+        }
+    }
+
     //----------------------------------------------------------------------------------------------------
     //----------------------------------------- PRIVATE METHODS  -----------------------------------------
     //----------------------------------------------------------------------------------------------------
@@ -545,5 +583,16 @@ public class DronfiesUssServices {
             return null;
         }
         return jsonObject.getString(key);
+    }
+
+    private void handleErrorResponse(Response response) throws Exception {
+        switch (response.code()){
+            case 400:
+                throw new BadRequestException("400: Bad Request");
+            case 404:
+                throw new NotFoundException("404: Not Found");
+            default:
+              throw new Exception("500: Internal server error");
+        }
     }
 }

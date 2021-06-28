@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Portable UTM Android Client</string>
-    <string name="endpoint">EndPoint</string>
+    <string name="endpoint">Endpoint</string>
     <string name="username">User</string>
     <string name="password">Password</string>
     <string name="login">LogIn</string>
@@ -29,4 +29,13 @@
     <string name="flightComments">Flight Comments:</string>
 
     <string name="test_vehicles">Test getVehicles()</string>
+    <string name="endpoints">Endpoints</string>
+    <string name="search_user">Search User</string>
+    <string name="search">Search</string>
+    <string name="country">Country</string>
+    <string name="name">Name</string>
+    <string name="backend_endpoint">Backend Endpoint</string>
+    <string name="frontend_endpoint">Frontend Endpoint</string>
+    <string name="change_state">Change State</string>
+    <string name="select_state">Select State</string>
 </resources>

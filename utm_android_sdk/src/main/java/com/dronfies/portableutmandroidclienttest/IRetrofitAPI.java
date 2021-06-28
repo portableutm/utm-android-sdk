@@ -44,4 +44,13 @@ interface IRetrofitAPI {
 
     @GET("restrictedflightvolume")
     Call<ResponseBody> getRestrictedFlightVolumes(@Header("auth") String authToken);
+
+    @GET("endpoints")
+    Call<ResponseBody> getEndpoints();
+
+    @GET("endpoint/{username}")
+    Call<ResponseBody> getEndpoint(@Header("auth") String authToken, @Path("username") String username);
+
+    @POST("operation/{id}/updatestate")
+    Call<ResponseBody> updateOperationState(@Header("auth") String authToken, @Path("id") String id, @Body UpdateStateRequestBody request);
 }

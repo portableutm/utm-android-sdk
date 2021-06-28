@@ -39,7 +39,7 @@ public class OperationsActivity extends AppCompatActivity {
         operationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent next = new Intent(getApplicationContext(), OperationInfo.class);
+                Intent next = new Intent(getApplicationContext(), OperationInfoActivity.class);
                 next.putExtra("operation", operation.getId());
                 next.putExtra("utmEndpoint",utmEndpoint);
                 startActivity(next);
@@ -66,9 +66,9 @@ public class OperationsActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 if (errorMessage == null){
-                                            for (Operation operation:operations) {
-                                                addOperation(operation);
-                                            }
+                                    for (Operation operation:operations) {
+                                        addOperation(operation);
+                                    }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Error when getting operations", Toast.LENGTH_SHORT ).show();
                                     Log.e("ERRORonOperations", errorMessage);
