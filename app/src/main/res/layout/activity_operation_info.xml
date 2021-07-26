@@ -1,195 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".OperationInfoActivity"
-    android:id="@+id/ScrollView01"
+    android:id="@+id/relative_layout_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:scrollbars="none" >
-
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:fillViewport="true"
+        android:scrollbars="none" >
 
-        <TextView
-            android:id="@+id/activity_opId"
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="ID"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/activity_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/activity_opId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="ID"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/description"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/activity_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/activity_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="descripcion"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
 
-
-        <TextView
-            android:id="@+id/tv2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/startDate"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_startDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="startdate"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/endDate"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_endDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="endate"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/maxAltitude"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_maxAltitude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="altura"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/pilotName"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_pilotName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="nombre"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/pilotPhone"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_pilotPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="telefono"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/droneId"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_droneId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="drone id"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/droneDescription"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_droneDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="descripcion drone"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/owner"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/activity_owner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="owner"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/activity_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="descripcion"
+                android:textSize="15sp" />
 
 
-        <TextView
-            android:id="@+id/tv9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/flightComments"
-            android:textColor="#F44336"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/startDate"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/activity_flightComments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/flightComments"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/activity_startDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="startdate"
+                android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/button_change_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/change_state"/>
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/endDate"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
 
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/activity_endDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="endate"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/maxAltitude"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_maxAltitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="altura"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pilotName"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_pilotName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="nombre"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pilotPhone"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_pilotPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="telefono"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/droneId"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_droneId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="drone id"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/droneDescription"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_droneDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="descripcion drone"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/owner"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_owner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="owner"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/tv9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/flightComments"
+                android:textColor="#F44336"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/activity_flightComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/flightComments"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/button_change_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_state"/>
+
+            <Button
+                android:id="@+id/button_upload_dat_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_dat_file"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

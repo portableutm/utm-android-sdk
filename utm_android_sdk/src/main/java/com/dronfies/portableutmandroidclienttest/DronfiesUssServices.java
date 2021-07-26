@@ -16,13 +16,19 @@ import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,13 +49,22 @@ public class DronfiesUssServices {
     private static String utmEndpoint = null;
 
     private DronfiesUssServices() {
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .build();
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(utmEndpoint)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+
         api = retrofit.create(IRetrofitAPI.class);
     }
 
@@ -375,6 +390,18 @@ public class DronfiesUssServices {
     public void updateOperationState(String operationId, com.dronfies.portableutmandroidclienttest.entities.Operation.EnumOperationState state) throws Exception {
         UpdateStateRequestBody requestBody = new UpdateStateRequestBody(state.name());
         Response<ResponseBody> response = api.updateOperationState(authToken, operationId, requestBody).execute();
+        if(response.code() != 200){
+            handleErrorResponse(response);
+        }
+    }
+
+    public void uploadDatFile(String operationId, String filepath) throws Exception{
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), new File(filepath));
+        MultipartBody.Part parts = MultipartBody.Part.createFormData("djiDatFile", filepath, requestBody);
+
+        RequestBody requestBodyOperationId = RequestBody.create(MediaType.parse("text/plain"), operationId);
+
+        Response<ResponseBody> response = api.uploadDatFile(parts, requestBodyOperationId).execute();
         if(response.code() != 200){
             handleErrorResponse(response);
         }
