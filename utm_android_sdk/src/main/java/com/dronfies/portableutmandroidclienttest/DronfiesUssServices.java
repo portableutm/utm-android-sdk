@@ -182,6 +182,56 @@ public class DronfiesUssServices {
         }
     }
 
+    public void sendPilotPosition(double lon, double lat, double alt, String operationId, String droneId, final ICompletitionCallback<String> callback){
+        Date now = new Date();
+        String timeSent = new SimpleDateFormat("yyyy-MM-dd").format(now) + "T" + new SimpleDateFormat("HH:mm:ss.SSS").format(now) + "Z";
+        PilotPosition pilotPosition = new PilotPosition(
+                (int) Math.round(alt),
+                new Location(
+                        "Point",
+                        new double[]{lon, lat}
+                ),
+                timeSent,
+                operationId,
+                droneId
+        );
+        api.sendPilotPosition(authToken, pilotPosition).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(!response.isSuccessful()){
+                    callback.onResponse(null, response.code() + " ("+response.getClass()+")");
+                    return;
+                }
+
+                callback.onResponse(response.body().toString() + " ("+response.getClass()+")", null);
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                callback.onResponse(null, t.getMessage());
+            }
+        });
+    }
+
+    public void sendPilotPosition_sync(double lon, double lat, double alt, String operationId, String droneId) throws Exception{
+        Date now = new Date();
+        String timeSent = new SimpleDateFormat("yyyy-MM-dd").format(now) + "T" + new SimpleDateFormat("HH:mm:ss.SSS").format(now) + "Z";
+        PilotPosition pilotPosition = new PilotPosition(
+                (int)Math.round(alt),
+                new Location(
+                        "Point",
+                        new double[]{lon, lat}
+                ),
+                timeSent,
+                operationId,
+                droneId
+        );
+        Response response = api.sendPilotPosition(authToken, pilotPosition).execute();
+        if(!response.isSuccessful()){
+            throw new Exception(String.format("[HTTP %d] %s", response.code(), response.errorBody().string()));
+        }
+    }
+
     public void sendPosition(double lon, double lat, double alt, double heading, String operationId, final ICompletitionCallback<String> callback){
         Date now = new Date();
         String timeSent = new SimpleDateFormat("yyyy-MM-dd").format(now) + "T" + new SimpleDateFormat("HH:mm:ss.SSS").format(now) + "Z";

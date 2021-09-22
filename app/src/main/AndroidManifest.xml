@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dronfies.portableutmandroidclienttest">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
-        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PortableUTMAndroidClient"
         android:usesCleartextTraffic="true">
-        <activity android:name=".EndpointsActivity"></activity>
+        <activity
+            android:name=".SendPilotPositionActivity"
+            android:exported="true" />
+        <activity android:name=".EndpointsActivity" />
         <activity android:name=".OperationInfoActivity" />
         <activity android:name=".OperationsActivity" />
         <activity android:name=".VehicleInfo" />
@@ -26,5 +29,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

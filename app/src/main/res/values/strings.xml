@@ -39,4 +39,5 @@
     <string name="change_state">Change State</string>
     <string name="select_state">Select State</string>
     <string name="upload_dat_file">Upload .dat File</string>
+    <string name="send_pilot_position">Send Pilot Position</string>
 </resources>

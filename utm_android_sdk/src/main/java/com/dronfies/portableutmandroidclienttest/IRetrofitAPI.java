@@ -22,6 +22,9 @@ interface IRetrofitAPI {
     @POST("operation")
     Call<ResponseBody> addOperation(@Header("auth") String authToken, @Body Operation operation);
 
+    @POST("pilotPosition")
+    Call<Object> sendPilotPosition(@Header("auth") String authToken, @Body PilotPosition pilotPosition);
+
     @POST("position")
     Call<Object> sendPosition(@Header("auth") String authToken, @Body Position position);
 
