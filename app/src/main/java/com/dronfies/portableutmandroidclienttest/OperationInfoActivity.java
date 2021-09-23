@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 public class OperationInfoActivity extends AppCompatActivity {
 
@@ -73,6 +74,7 @@ public class OperationInfoActivity extends AppCompatActivity {
         mStatus = findViewById(R.id.activity_status);
         ((Button) findViewById(R.id.button_change_state)).setOnClickListener(v -> onClickChangeState());
         ((Button) findViewById(R.id.button_upload_dat_file)).setOnClickListener(v -> onClickUploadDatFile());
+        ((Button) findViewById(R.id.button_send_pilot_position)).setOnClickListener(v -> onClickSendPilotPosition());
 
         id = getIntent().getStringExtra("operation");
         endPoint = getIntent().getStringExtra("utmEndpoint");
@@ -153,6 +155,14 @@ public class OperationInfoActivity extends AppCompatActivity {
             return;
         }
         uploadDatFile();
+    }
+
+    private void onClickSendPilotPosition() {
+        UIGenericUtils.GoToActivity(
+                this,
+                SendPilotPositionActivity.class,
+                Arrays.asList(Constants.ENDPOINT_KEY, Constants.OPERATION_ID_KEY, Constants.DRONE_ID_KEY),
+                Arrays.asList(endPoint, id, mDroneId.getText().toString()));
     }
 
     private void uploadDatFile(){
