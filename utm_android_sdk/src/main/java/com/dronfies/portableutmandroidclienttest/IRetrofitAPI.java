@@ -61,4 +61,8 @@ interface IRetrofitAPI {
     @Multipart
     @POST("decrypt")
     Call<ResponseBody> uploadDatFile(@Part MultipartBody.Part part, @Part("operationId") RequestBody requestBody);
+
+    @POST("operation/express")
+    Call<ResponseBody> addExpressOperation(@Header("auth") String authToken, @Body ExpressOperationData data);
+
 }

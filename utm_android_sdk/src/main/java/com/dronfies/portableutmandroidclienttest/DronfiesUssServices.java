@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -48,6 +52,10 @@ public class DronfiesUssServices {
 
     private static String utmEndpoint = null;
 
+    public DronfiesUssServices(IRetrofitAPI api) {
+        this.api = api;
+    }
+
     private DronfiesUssServices() {
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -66,6 +74,42 @@ public class DronfiesUssServices {
                 .build();
 
         api = retrofit.create(IRetrofitAPI.class);
+    }
+    @Deprecated
+    public static DronfiesUssServices getUnsafeInstanceDONOTUSE(String utmEndpoint){
+        if(utmEndpoint == null){
+            // utmEndpoint cant be null
+            throw new RuntimeException("UTM endpoint can't be null");
+        }
+        boolean utmEndpointChanged = false;
+        if(DronfiesUssServices.utmEndpoint == null || !DronfiesUssServices.utmEndpoint.equals(utmEndpoint)){
+            utmEndpointChanged = true;
+            DronfiesUssServices.utmEndpoint = utmEndpoint;
+        }
+        if(INSTANCE == null || utmEndpointChanged){
+            // it means we have to regenerate the INSTANCE
+            try{
+
+                OkHttpClient okHttpClient = new UnsafeOkHttpClient().getUnsafeOkHttpClient().newBuilder()
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .writeTimeout(60, TimeUnit.SECONDS)
+                        .build();
+
+                Gson gson = new GsonBuilder()
+                        .setLenient()
+                        .create();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(utmEndpoint)
+                        .client(okHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+
+                INSTANCE = new DronfiesUssServices(retrofit.create(IRetrofitAPI.class));
+            }catch(Exception ex){}
+        }
+        return INSTANCE;
     }
 
     public static DronfiesUssServices getInstance(String utmEndpoint){
@@ -132,6 +176,10 @@ public class DronfiesUssServices {
         return authToken;
     }
 
+    public String addExpressOperation_sync(ExpressOperationData data) throws Exception {
+        Response<ResponseBody> response = api.addExpressOperation(authToken,data).execute();
+        return new JSONObject(response.body().string()).get("gufi").toString();
+    }
     // When we add an operation, the droneDescription is ignored. This field is used when we get the operations from the backend
     /*public void addOperation(com.dronfies.portableutmandroidclient.entities.Operation operation, final ICompletitionCallback<String> callback){
         api.addOperation(authToken, transformOperation(operation)).enqueue(new Callback<Object>() {
