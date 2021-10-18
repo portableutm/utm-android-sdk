@@ -11,17 +11,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VehiclesActivity extends AppCompatActivity {
-    LinearLayout vehiclesLayout;
-    String utmEndpoint;
+
+    private LinearLayout vehiclesLayout;
+    private String utmEndpoint;
+    private boolean mFromOperator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicles);
         vehiclesLayout = (LinearLayout) findViewById(R.id.vehiclesLinearLayout);
         utmEndpoint = getIntent().getStringExtra("utmEndpoint");
+        mFromOperator = getIntent().getBooleanExtra("fromOperator", false);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,12 +60,17 @@ public class VehiclesActivity extends AppCompatActivity {
         DronfiesUssServices dronfiesUssServices = DronfiesUssServices.getInstance(utmEndpoint);
         if(dronfiesUssServices.isAuthenticated()){
             try {
-                List<Vehicle> vehicleList = dronfiesUssServices.getVehicles();
-                vehicleCount = vehicleList.size();
+                final List<Vehicle>[] vehicleList = new List[1];
+                if(mFromOperator){
+                    vehicleList[0] = dronfiesUssServices.getOperatorVehicles();
+                }else{
+                    vehicleList[0] = dronfiesUssServices.getVehicles();
+                }
+                vehicleCount = vehicleList[0].size();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (Vehicle vehicle:vehicleList) {
+                        for (Vehicle vehicle:vehicleList[0]) {
                             addVehicle(vehicle);
                         }
 

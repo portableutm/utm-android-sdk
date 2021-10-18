@@ -61,6 +61,13 @@
         android:layout_marginBottom="10dp"/>
 
     <Button
+        android:id="@+id/buttonOperatorVehicles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GET /vehicles/operator"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
         android:id="@+id/buttonOperations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

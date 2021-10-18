@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mButtonLogin;
     private Button mButtonEndpoints;
     private Button mButtonVehicles;
+    private Button mButtonOperatorVehicles;
     private Button mButtonOperations;
 
     @Override
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         mButtonEndpoints = findViewById(R.id.buttonEndpoints);
         mButtonEndpoints.setOnClickListener(view -> onClickEndpoints());
         mButtonVehicles = findViewById(R.id.buttonVehicles);
-        mButtonVehicles.setOnClickListener(view -> onClickVehicles());
+        mButtonVehicles.setOnClickListener(view -> onClickVehicles(false));
+        mButtonOperatorVehicles = findViewById(R.id.buttonOperatorVehicles);
+        mButtonOperatorVehicles.setOnClickListener(view -> onClickVehicles(true));
         mButtonOperations = findViewById(R.id.buttonOperations);
         mButtonOperations.setOnClickListener(view -> onClickOperations());
     }
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void onClickVehicles(){
+    private void onClickVehicles(boolean fromOperator){
         String utmEndpoint = String.valueOf(mEditTextEndpoint.getText());
         DronfiesUssServices dronfiesUssServices = DronfiesUssServices.getInstance(utmEndpoint);
         if(dronfiesUssServices == null || !dronfiesUssServices.isAuthenticated()){
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Intent next = new Intent(this, VehiclesActivity.class);
+        next.putExtra("fromOperator", fromOperator);
         next.putExtra("utmEndpoint",utmEndpoint);
         startActivity(next);
     }

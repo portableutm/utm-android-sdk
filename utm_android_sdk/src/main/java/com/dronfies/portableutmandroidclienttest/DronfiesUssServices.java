@@ -430,14 +430,11 @@ public class DronfiesUssServices {
     }
 
     public List<Vehicle> getVehicles() throws Exception {
-        String responseBody = api.getVehicles(authToken).execute().body().string();
-        JSONArray jsonArrayVehicles = new JSONArray(responseBody);
-        List<Vehicle> ret = new ArrayList<>();
-        for(int i = 0; i < jsonArrayVehicles.length(); i++){
-            JSONObject jsonObject = jsonArrayVehicles.getJSONObject(i);
-            ret.add(parseVehicle(jsonObject));
-        }
-        return ret;
+        return getVehicles(false);
+    }
+
+    public List<Vehicle> getOperatorVehicles() throws Exception {
+        return getVehicles(true);
     }
 
     public Vehicle getVehicleById(String id) throws Exception {
@@ -509,6 +506,22 @@ public class DronfiesUssServices {
     //----------------------------------------- PRIVATE METHODS  -----------------------------------------
     //----------------------------------------------------------------------------------------------------
 
+    private List<Vehicle> getVehicles(boolean fromOperator) throws Exception {
+        String responseBody = null;
+        if(fromOperator){
+            responseBody = api.getOperatorVehicles(authToken).execute().body().string();
+        }else{
+            responseBody = api.getVehicles(authToken).execute().body().string();
+        }
+        JSONArray jsonArrayVehicles = new JSONArray(responseBody);
+        List<Vehicle> ret = new ArrayList<>();
+        for(int i = 0; i < jsonArrayVehicles.length(); i++){
+            JSONObject jsonObject = jsonArrayVehicles.getJSONObject(i);
+            ret.add(parseVehicle(jsonObject));
+        }
+        return ret;
+    }
+
     private Operation transformOperation(com.dronfies.portableutmandroidclienttest.entities.Operation operation){
         List<List<Double>> polygonCoordinates = new ArrayList<>();
         for(GPSCoordinates latLng : operation.getPolygon()){
@@ -542,6 +555,8 @@ public class DronfiesUssServices {
                         formatDateForOperationObject(operation.getEndDatetime())
                 )
         );*/
+        Log.d("_Logs", operation.getStartDatetime() + "");
+        Log.d("_Logs", formatDateForOperationObject(operation.getStartDatetime()));
         List<OperationVolume> operationVolumes = Arrays.asList(
                 new OperationVolume(
                     formatDateForOperationObject(operation.getStartDatetime()),
