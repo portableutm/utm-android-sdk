@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.time
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -166,8 +167,7 @@ public class DronfiesUssServices {
     }
 
     public void sendPosition(double lon, double lat, double alt, double heading, String operationId, final ICompletitionCallback<String> callback){
-        Date now = new Date();
-        String timeSent = new SimpleDateFormat("yyyy-MM-dd").format(now) + "T" + new SimpleDateFormat("HH:mm:ss.SSS").format(now) + "Z";
+        String timeSent = Instant.now().toString()
         Position position = new Position(
                 (int) Math.round(alt),
                 new Location(
@@ -199,8 +199,7 @@ public class DronfiesUssServices {
     }
 
     public void sendPosition_sync(double lon, double lat, double alt, double heading, String operationId) throws Exception{
-        Date now = new Date();
-        String timeSent = new SimpleDateFormat("yyyy-MM-dd").format(now) + "T" + new SimpleDateFormat("HH:mm:ss.SSS").format(now) + "Z";
+        String timeSent = Instant.now().toString();
         Position position = new Position(
                 (int)Math.round(alt),
                 new Location(
@@ -215,8 +214,7 @@ public class DronfiesUssServices {
     }
 
     public void sendParaglidingPosition(double lon, double lat, double alt, final ICompletitionCallback<String> callback){
-        Date now = new Date();
-        String timeSent = new SimpleDateFormat("yyyy-MM-dd").format(now) + "T" + new SimpleDateFormat("HH:mm:ss.SSS").format(now) + "Z";
+        String timeSent = Instant.now().toString();
         ParaglidingPosition position = new ParaglidingPosition(
                 (int) Math.round(alt),
                 new Location(
@@ -348,7 +346,7 @@ public class DronfiesUssServices {
             polygonCoordinates.add(Arrays.asList(latLng.getLongitude(), latLng.getLatitude()));
         }
 
-        Date submitDate = new Date();
+        String submitDate = Instant.now().toString();
         List<String> uasRegistrations = new ArrayList<>();
         uasRegistrations.add(operation.getDroneId());
         PriorityElements priorityElements = new PriorityElements(
@@ -404,8 +402,8 @@ public class DronfiesUssServices {
                 "",
                 "Simple polygon",
                 "",
-                formatDateForOperationObject(submitDate),
-                formatDateForOperationObject(submitDate),
+                submitDate,
+                submitDate,
                 0,
                 2,
                 false,
