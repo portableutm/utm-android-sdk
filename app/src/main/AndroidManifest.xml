@@ -12,6 +12,9 @@
         android:theme="@style/Theme.PortableUTMAndroidClient"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".TrackerPositionActivity"
+            android:exported="true" />
+        <activity
             android:name=".SendPilotPositionActivity"
             android:exported="true" />
         <activity android:name=".EndpointsActivity" />

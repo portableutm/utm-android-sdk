@@ -40,4 +40,9 @@
     <string name="select_state">Select State</string>
     <string name="upload_dat_file">Upload .dat File</string>
     <string name="send_pilot_position">Send Pilot Position</string>
+    <string name="check_tracker_position">check tracker position</string>
+    <string name="altitude">Altitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="tracker_position">Tracker Position</string>
 </resources>

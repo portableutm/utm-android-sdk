@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.dronfies.portableutmandroidclienttest.entities.GPSCoordinates;
 import com.dronfies.portableutmandroidclienttest.entities.ICompletitionCallback;
+import com.dronfies.portableutmandroidclienttest.entities.IGenericCallback;
 import com.dronfies.portableutmandroidclienttest.exception.BadRequestException;
 import com.dronfies.portableutmandroidclienttest.exception.NotFoundException;
 import com.google.android.gms.maps.model.LatLng;
@@ -17,19 +18,21 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
-
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -52,6 +55,8 @@ public class DronfiesUssServices {
     private String mUsername = null;
 
     private static String utmEndpoint = null;
+
+    private Map<String, Socket> mMapSockets = new HashMap<>();
 
     public DronfiesUssServices(IRetrofitAPI api) {
         this.api = api;
@@ -496,6 +501,45 @@ public class DronfiesUssServices {
         if(response.code() != 200){
             handleErrorResponse(response);
         }
+    }
+
+    public String connectToTrackerPositionUpdates(String operationId, IGenericCallback<TrackerPosition> callback) throws NoAuthenticatedException {
+        if(authToken == null || mUsername == null){
+            throw new NoAuthenticatedException("You must call login method, before calling this method");
+        }
+        try {
+            IO.Options options = new IO.Options();
+            options.query = String.format("token=%s", authToken);
+            Socket socket = IO.socket(String.format("%s/private", utmEndpoint), options);
+            socket.on(String.format("new-tracker-position[gufi=%s]", operationId), new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    try{
+                        JSONObject jsonObject = (JSONObject)objects[0];
+                        double latitude = jsonObject.getDouble("latitude");
+                        double longitude = jsonObject.getDouble("longitude");
+                        double altitude = jsonObject.getDouble("altitude");
+                        TrackerPosition trackerPosition = new TrackerPosition(latitude, longitude, altitude);
+                        callback.onCallbackExecution(trackerPosition, null);
+                    }catch (Exception ex){
+                        callback.onCallbackExecution(null, ex.getMessage());
+                    }
+                }
+            });
+            socket.connect();
+            String ret = UUID.randomUUID().toString();
+            mMapSockets.put(ret, socket);
+            return ret;
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void disconnectFromTrackerPositionUpdates(String ref){
+        try{
+            mMapSockets.get(ref).disconnect();
+            mMapSockets.remove(ref);
+        }catch (Exception ex){}
     }
 
     //----------------------------------------------------------------------------------------------------

@@ -75,6 +75,7 @@ public class OperationInfoActivity extends AppCompatActivity {
         ((Button) findViewById(R.id.button_change_state)).setOnClickListener(v -> onClickChangeState());
         ((Button) findViewById(R.id.button_upload_dat_file)).setOnClickListener(v -> onClickUploadDatFile());
         ((Button) findViewById(R.id.button_send_pilot_position)).setOnClickListener(v -> onClickSendPilotPosition());
+        ((Button) findViewById(R.id.button_check_tracker_position)).setOnClickListener(v -> onClickCheckTrackerPosition());
 
         id = getIntent().getStringExtra("operation");
         endPoint = getIntent().getStringExtra("utmEndpoint");
@@ -163,6 +164,14 @@ public class OperationInfoActivity extends AppCompatActivity {
                 SendPilotPositionActivity.class,
                 Arrays.asList(Constants.ENDPOINT_KEY, Constants.OPERATION_ID_KEY, Constants.DRONE_ID_KEY),
                 Arrays.asList(endPoint, id, mDroneId.getText().toString()));
+    }
+
+    private void onClickCheckTrackerPosition() {
+        UIGenericUtils.GoToActivity(
+                this,
+                TrackerPositionActivity.class,
+                Arrays.asList(Constants.ENDPOINT_KEY, Constants.OPERATION_ID_KEY),
+                Arrays.asList(endPoint, id));
     }
 
     private void uploadDatFile(){

@@ -206,6 +206,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/send_pilot_position"/>
 
+            <Button
+                android:id="@+id/button_check_tracker_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/check_tracker_position"/>
+
         </LinearLayout>
     </ScrollView>
 

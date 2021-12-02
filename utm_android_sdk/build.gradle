@@ -8,7 +8,7 @@ def githubProperties = new Properties()
 githubProperties.load(new FileInputStream(rootProject.file("github.properties"))) //Set env variable GPR_USER & GPR_API_KEY if not adding a properties file
 
 def getVersionName = { ->
-    return "3.7" // Replace with version Name
+    return "3.8" // Replace with version Name
 }
 
 def getArtificatId = { ->
@@ -97,4 +97,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.3.1'
+
+    // socket.io
+    implementation ('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
 }

@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:gravity="center">
-    <EditText
-        android:id="@+id/editTextEndpoint"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/endpoint"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="10dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center">
+        <EditText
+            android:id="@+id/editTextEndpoint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/endpoint"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="10dp"/>
 
-    <EditText
-        android:id="@+id/editTextUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/login"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="10dp"/>
+        <EditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="10dp"/>
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:layout_marginBottom="20dp"/>
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:layout_marginBottom="20dp"/>
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:layout_marginBottom="20dp"/>
 
-    <TextView
-        android:id="@+id/textViewAccessToken"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/result"
-        android:layout_marginBottom="20dp"/>
+        <TextView
+            android:id="@+id/textViewAccessToken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/result"
+            android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:id="@+id/buttonEndpoints"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/endpoints"
-        android:layout_marginBottom="10dp"/>
+        <Button
+            android:id="@+id/buttonEndpoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/endpoints"
+            android:layout_marginBottom="10dp"/>
 
-    <Button
-        android:id="@+id/buttonVehicles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/vehicles"
-        android:layout_marginBottom="10dp"/>
+        <Button
+            android:id="@+id/buttonVehicles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vehicles"
+            android:layout_marginBottom="10dp"/>
 
-    <Button
-        android:id="@+id/buttonOperatorVehicles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GET /vehicles/operator"
-        android:layout_marginBottom="10dp"/>
+        <Button
+            android:id="@+id/buttonOperatorVehicles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GET /vehicles/operator"
+            android:layout_marginBottom="10dp"/>
 
-    <Button
-        android:id="@+id/buttonOperations"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/operations"/>
-</LinearLayout>
+        <Button
+            android:id="@+id/buttonOperations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/operations"/>
+    </LinearLayout>
+</ScrollView>
