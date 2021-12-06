@@ -15,9 +15,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -503,6 +505,14 @@ public class DronfiesUssServices {
         }
     }
 
+    public Tracker getTrackerInformation(String trackerId) throws IOException {
+        return api.getTrackerById(authToken,trackerId).execute().body();
+    }
+
+    public Tracker registerTracker(String trackerId, Vehicle vehicle) throws IOException {
+        Tracker tracker = new Tracker(trackerId,vehicle);
+            return api.registerTracker(authToken, tracker).execute().body();
+    }
     public String connectToTrackerPositionUpdates(String operationId, IGenericCallback<TrackerPosition> callback) throws NoAuthenticatedException {
         if(authToken == null || mUsername == null){
             throw new NoAuthenticatedException("You must call login method, before calling this method");
@@ -764,6 +774,16 @@ public class DronfiesUssServices {
         }
         return jsonObject.getString(key);
     }
+
+//    private Tracker parseTracker(JSONObject jsonTracker) throws JSONException {
+//        String hardwareId = jsonTracker.getString("hardware_id");
+//        Directory directory = new Directory();
+//        if (jsonTracker.getString("hardware_id") != null){
+//            Tracker tracker = new Tracker(hardwareId);
+//
+//        }
+//
+//    }
 
     private void handleErrorResponse(Response response) throws Exception {
         switch (response.code()){

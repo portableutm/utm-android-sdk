@@ -71,4 +71,10 @@ interface IRetrofitAPI {
     @POST("operation/express")
     Call<ResponseBody> addExpressOperation(@Header("auth") String authToken, @Body ExpressOperationData data);
 
+    @GET("tracker/{id}")
+    Call<Tracker> getTrackerById(@Header("auth") String authToken, @Path("id") String id);
+
+    @POST("tracker")
+    Call<Tracker> registerTracker(@Header("auth") String authToken, @Body Tracker data);
+
 }
