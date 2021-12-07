@@ -33,7 +33,7 @@ class VehicleTest {
         vehicleClass = Vehicle.EnumVehicleClass.MULTIROTOR;
         registeredBy = "1234567";
         owner = "12345678";
-        vehicle = new Vehicle("1",date, "12","123","1234","12345","123456", Vehicle.EnumVehicleClass.MULTIROTOR,"1234567","12345678");
+        vehicle = new Vehicle("1",date, "12","123","1234","12345","123456", Vehicle.EnumVehicleClass.MULTIROTOR,"1234567","12345678", Vehicle.EnumVehicleAuthorization.AUTHORIZED);
     }
 
 
