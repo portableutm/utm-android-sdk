@@ -5,6 +5,7 @@ import java.util.Date;
 public class Vehicle {
 
     public enum EnumVehicleClass{ MULTIROTOR, FIXEDWING };
+    public enum EnumVehicleAuthorization { AUTHORIZED, NOT_AUTHORIZED, PENDING }
 
     private String uvin;
     private Date date;
@@ -16,12 +17,13 @@ public class Vehicle {
     private EnumVehicleClass vehicleClass;
     private String registeredBy;
     private String owner;
+    private EnumVehicleAuthorization authorization;
 
     //------------------------------------------------------------------------------------
     //----------------------------------- CONSTRUCTORS -----------------------------------
     //------------------------------------------------------------------------------------
 
-    public Vehicle(String uvin, Date date, String nNumber, String faaNumber, String vehicleName, String manufacturer, String model, EnumVehicleClass vehicleClass, String registeredBy, String owner) {
+    public Vehicle(String uvin, Date date, String nNumber, String faaNumber, String vehicleName, String manufacturer, String model, EnumVehicleClass vehicleClass, String registeredBy, String owner, EnumVehicleAuthorization authorization) {
         this.uvin = uvin;
         this.date = date;
         this.nNumber = nNumber;
@@ -32,6 +34,7 @@ public class Vehicle {
         this.vehicleClass = vehicleClass;
         this.registeredBy = registeredBy;
         this.owner = owner;
+        this.authorization = authorization;
     }
 
     //------------------------------------------------------------------------------------
@@ -117,5 +120,13 @@ public class Vehicle {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public EnumVehicleAuthorization getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(EnumVehicleAuthorization authorization) {
+        this.authorization = authorization;
     }
 }

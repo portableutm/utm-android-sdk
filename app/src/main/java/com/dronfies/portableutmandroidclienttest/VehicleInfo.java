@@ -20,6 +20,7 @@ public class VehicleInfo extends AppCompatActivity {
     TextView mFaa;
     TextView mUvin;
     TextView mName;
+    TextView mTextViewAuthorization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class VehicleInfo extends AppCompatActivity {
         mFaa = findViewById(R.id.activity_owner);
         mUvin = findViewById(R.id.activity_flightComments);
         mName = findViewById(R.id.activity_opId);
+        mTextViewAuthorization = findViewById(R.id.activity_authorization);
 
         id = getIntent().getStringExtra("vehicle");
         endPoint = getIntent().getStringExtra("utmEndpoint");
@@ -87,6 +89,11 @@ public class VehicleInfo extends AppCompatActivity {
                     mFaa.setText(Faa);
                     mUvin.setText(Uvin);
                     mName.setText(Name);
+                    if(vehicle.getAuthorization() != null){
+                        mTextViewAuthorization.setText(vehicle.getAuthorization().toString());
+                    }else{
+                        mTextViewAuthorization.setText("null");
+                    }
                 }
             });
 

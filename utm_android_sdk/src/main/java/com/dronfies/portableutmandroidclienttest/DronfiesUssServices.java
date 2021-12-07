@@ -750,7 +750,11 @@ public class DronfiesUssServices {
         if(jsonObjectVehicle.has("owner") && !jsonObjectVehicle.isNull("owner")){
             owner = getStringValueFromJSONObject(jsonObjectVehicle.getJSONObject("owner"), "username");
         }
-        return new Vehicle(uvin, date, nNumber, faaNumber, vehicleName, manufacturer, model, vehicleClass, registeredBy, owner);
+        Vehicle.EnumVehicleAuthorization authorization = null;
+        try{
+            authorization = Vehicle.EnumVehicleAuthorization.valueOf(jsonObjectVehicle.getString("authorized").toUpperCase().trim());
+        }catch (Exception ex){}
+        return new Vehicle(uvin, date, nNumber, faaNumber, vehicleName, manufacturer, model, vehicleClass, registeredBy, owner, authorization);
     }
 
     private RestrictedFlightVolume parseRFV(JSONObject jsonObjectRFV) throws Exception {
