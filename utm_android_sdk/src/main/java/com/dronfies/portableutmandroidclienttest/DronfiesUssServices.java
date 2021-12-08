@@ -184,6 +184,11 @@ public class DronfiesUssServices {
         return authToken;
     }
 
+    public User getUserInfo() throws IOException {
+        Response<User> response = api.getUser(authToken,mUsername).execute();
+        return response.body();
+    }
+
     public String addExpressOperation_sync(ExpressOperationData data) throws Exception {
         Response<ResponseBody> response = api.addExpressOperation(authToken,data).execute();
         return new JSONObject(response.body().string()).get("gufi").toString();
