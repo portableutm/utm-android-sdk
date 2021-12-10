@@ -6,6 +6,7 @@ public class Tracker{
     public String hardware_id;
     public List<Directory> directory;
     public Vehicle vehicle;
+    public String uvin;
 
 
     public Tracker(String hardware_id, List<Directory> directory) {
@@ -16,6 +17,11 @@ public class Tracker{
     public Tracker(String hardware_id, Vehicle vehicle) {
         this.hardware_id = hardware_id;
         this.vehicle = vehicle;
+    }
+
+    public Tracker(String hardware_id, String uvin) {
+        this.hardware_id = hardware_id;
+        this.uvin = uvin;
     }
 
     public String getHardware_id() {

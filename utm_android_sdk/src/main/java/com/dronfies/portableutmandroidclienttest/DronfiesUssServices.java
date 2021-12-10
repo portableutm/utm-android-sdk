@@ -514,8 +514,8 @@ public class DronfiesUssServices {
         return api.getTrackerById(authToken,trackerId).execute().body();
     }
 
-    public Tracker registerTracker(String trackerId, Vehicle vehicle) throws IOException {
-        Tracker tracker = new Tracker(trackerId,vehicle);
+    public Tracker registerTracker(String trackerId, String uvin) throws IOException {
+        Tracker tracker = new Tracker(trackerId,uvin);
             return api.registerTracker(authToken, tracker).execute().body();
     }
     public String connectToTrackerPositionUpdates(String operationId, IGenericCallback<TrackerPosition> callback) throws NoAuthenticatedException {
