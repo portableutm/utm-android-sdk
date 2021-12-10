@@ -510,13 +510,26 @@ public class DronfiesUssServices {
         }
     }
 
-    public Tracker getTrackerInformation(String trackerId) throws IOException {
-        return api.getTrackerById(authToken,trackerId).execute().body();
+    public Tracker getTrackerInformation(String trackerId) throws Exception {
+        ResponseBody responseBody = null;
+        responseBody = api.getTrackerById(authToken,trackerId).execute().body();
+        if (responseBody == null){
+            return null;
+        }
+        JSONObject json = new JSONObject(responseBody.string());
+        try {
+            if (json.getJSONObject("vehicle") != null){
+                return new Tracker(json.getString("hardware_id"),parseVehicle(json.getJSONObject("vehicle")));
+            }
+        } catch (JSONException e) {
+            return new Tracker(json.getString("hardware_id"), parseDirectory(json.getJSONArray("directory")));
+        }
+        return null;
     }
 
-    public Tracker registerTracker(String trackerId, String uvin) throws IOException {
+    public void registerTracker(String trackerId, String uvin) throws IOException {
         Tracker tracker = new Tracker(trackerId,uvin);
-            return api.registerTracker(authToken, tracker).execute().body();
+        api.registerTracker(authToken, tracker).execute();
     }
     public String connectToTrackerPositionUpdates(String operationId, IGenericCallback<TrackerPosition> callback) throws NoAuthenticatedException {
         if(authToken == null || mUsername == null){
@@ -560,6 +573,17 @@ public class DronfiesUssServices {
     //----------------------------------------------------------------------------------------------------
     //----------------------------------------- PRIVATE METHODS  -----------------------------------------
     //----------------------------------------------------------------------------------------------------
+
+
+    private List<Directory> parseDirectory(JSONArray jsonArr) throws JSONException {
+        List<Directory> dir = new ArrayList<>();
+        for (int i = 0; i < jsonArr.length(); i++) {
+            String uvin = jsonArr.getJSONObject(i).getString("uvin");
+            String endpoint = jsonArr.getJSONObject(i).getString("endpoint");
+            dir.add(new Directory(uvin,endpoint));
+        }
+        return dir;
+    }
 
     private List<Vehicle> getVehicles(boolean fromOperator) throws Exception {
         String responseBody = null;
