@@ -11,12 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class VehiclesActivity extends AppCompatActivity {
 
     private LinearLayout vehiclesLayout;
+    private FloatingActionButton mButtonAddVehicle;
     private String utmEndpoint;
     private boolean mFromOperator;
 
@@ -25,6 +29,8 @@ public class VehiclesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicles);
         vehiclesLayout = (LinearLayout) findViewById(R.id.vehiclesLinearLayout);
+        mButtonAddVehicle = findViewById(R.id.buttonAddVehicle);
+        mButtonAddVehicle.setOnClickListener(view -> onClickAddVehicle());
         utmEndpoint = getIntent().getStringExtra("utmEndpoint");
         mFromOperator = getIntent().getBooleanExtra("fromOperator", false);
         new Thread(new Runnable() {
@@ -35,6 +41,9 @@ public class VehiclesActivity extends AppCompatActivity {
         }).start();
     }
 
+    private void onClickAddVehicle(){
+        UIGenericUtils.GoToActivity(this, AddVehicleActivity.class, Arrays.asList(Constants.ENDPOINT_KEY), Arrays.asList(utmEndpoint));
+    }
 
     private void addVehicle(Vehicle vehicle) {
         View vehicleView = getLayoutInflater().inflate(R.layout.layout_vehicle,null);
