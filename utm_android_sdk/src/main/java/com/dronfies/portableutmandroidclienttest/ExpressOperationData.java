@@ -4,11 +4,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class ExpressOperationData {
     private LatLng location;
-    private int radius;
+    private float radius;
     private int duration;
     private String vehicleId;
 
-    public ExpressOperationData(LatLng location, int radius, int duration, String vehicleId) {
+    public ExpressOperationData(LatLng location, float radius, int duration, String vehicleId) {
         this.location = location;
         this.radius = radius;
         this.duration = duration;
@@ -23,11 +23,11 @@ public class ExpressOperationData {
         this.location = location;
     }
 
-    public int getRadius() {
+    public float getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(float radius) {
         this.radius = radius;
     }
 

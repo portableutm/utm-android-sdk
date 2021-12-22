@@ -34,7 +34,9 @@ import java.util.concurrent.TimeUnit;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.client.SocketIOException;
 import io.socket.emitter.Emitter;
+import io.socket.engineio.client.transports.WebSocket;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -538,8 +540,10 @@ public class DronfiesUssServices {
         try {
             IO.Options options = new IO.Options();
             options.query = String.format("token=%s", authToken);
+//            options.transports = new String[] { WebSocket.NAME };
             Socket socket = IO.socket(String.format("%s/private", utmEndpoint), options);
-            socket.on(String.format("new-tracker-position[gufi=%s]", operationId), new Emitter.Listener() {
+            String eventName = String.format("new-tracker-position[gufi=%s]", operationId);
+            socket.on(eventName, new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
                     try{
@@ -552,6 +556,22 @@ public class DronfiesUssServices {
                     }catch (Exception ex){
                         callback.onCallbackExecution(null, ex.getMessage());
                     }
+                }
+            });
+            socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    Log.e("SOCKET ERROR","eventConnectError");
+                    for(Object o : args){
+                        Log.d("SOCKET ERROR", "object: " + o.toString());
+                        if(o instanceof SocketIOException)
+                            ((SocketIOException) o).printStackTrace();
+                    }
+                }
+            }).on(Socket.EVENT_ERROR, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    Log.d("SOCKET ERROR", "eventError");
                 }
             });
             socket.connect();
