@@ -1,7 +1,6 @@
 package com.dronfies.portableutmandroidclienttest;
 
-import android.util.Log;
-
+import com.dronfies.portableutmandroidclienttest.entities.ExtraField;
 import com.dronfies.portableutmandroidclienttest.entities.GPSCoordinates;
 import com.dronfies.portableutmandroidclienttest.entities.ICompletitionCallback;
 import com.dronfies.portableutmandroidclienttest.entities.IGenericCallback;
@@ -13,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,11 +42,14 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okio.BufferedSink;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Header;
+import retrofit2.http.Part;
 
 public class DronfiesUssServices {
 
@@ -453,6 +456,50 @@ public class DronfiesUssServices {
         return parseVehicle(jsonVehicles);
     }
 
+    public void addVehicle(Vehicle vehicle, Map<ExtraField, Object> mapExtraFieldValues) throws Exception {
+        JsonObject jsonObjectExtraFields = new JsonObject();
+        List<MultipartBody.Part> files = new ArrayList<>();
+        for(Map.Entry<ExtraField, Object> entry : mapExtraFieldValues.entrySet()){
+            ExtraField extraField = entry.getKey();
+            if(extraField.getType() == ExtraField.EnumExtraFieldType.STRING){
+                jsonObjectExtraFields.addProperty(extraField.getName(), (String)entry.getValue());
+            }else if(extraField.getType() == ExtraField.EnumExtraFieldType.DATE){
+                jsonObjectExtraFields.addProperty(extraField.getName(), formatDateForOperationOrVehicleObject((Date)entry.getValue()));
+            }else if(extraField.getType() == ExtraField.EnumExtraFieldType.BOOL){
+                jsonObjectExtraFields.addProperty(extraField.getName(), (Boolean)entry.getValue());
+            }else if(extraField.getType() == ExtraField.EnumExtraFieldType.NUMBER){
+                jsonObjectExtraFields.addProperty(extraField.getName(), (Double)entry.getValue());
+            }else if(extraField.getType() == ExtraField.EnumExtraFieldType.FILE){
+                String filepath = (String)entry.getValue();
+                RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), new File(filepath));
+                MultipartBody.Part part = MultipartBody.Part.createFormData(extraField.getName(), filepath, requestBody);
+                files.add(part);
+            }
+        }
+        String strExtraFields = jsonObjectExtraFields.toString();
+
+        validateVehicle(vehicle);
+
+        String ownerId = getUsername();
+
+        Response<ResponseBody> response = api.postVehicle(
+            authToken,
+            files,
+            getRequestBody(vehicle.getDate().toString()),
+            getRequestBody(vehicle.getnNumber()),
+            getRequestBody(vehicle.getFaaNumber()),
+            getRequestBody(vehicle.getVehicleName()),
+            getRequestBody(vehicle.getManufacturer()),
+            getRequestBody(vehicle.getModel()),
+            getRequestBody(vehicle.getVehicleClass().name()),
+            getRequestBody(ownerId),
+            getRequestBody(strExtraFields)
+        ).execute();
+        if(!response.isSuccessful()){
+            throw new Exception(String.format("%d: %s", response.code(), response.message()));
+        }
+    }
+
     public List<RestrictedFlightVolume> getRestrictedFlightVolumes() throws Exception {
         String responseBody = api.getRestrictedFlightVolumes(authToken).execute().body().string();
         JSONArray jsonArrayRFVs = new JSONArray(responseBody);
@@ -590,22 +637,45 @@ public class DronfiesUssServices {
         }catch (Exception ex){}
     }
 
+    public List<ExtraField> getUserExtraFields() throws Exception {
+        return getExtraFields("userExtraFields");
+    }
+
+    public List<ExtraField> getVehicleExtraFields() throws Exception {
+        return getExtraFields("vehicleExtraFields");
+    }
+
     //----------------------------------------------------------------------------------------------------
     //----------------------------------------- PRIVATE METHODS  -----------------------------------------
     //----------------------------------------------------------------------------------------------------
-
 
     private List<Directory> parseDirectory(JSONArray jsonArr) throws JSONException {
         List<Directory> dir = new ArrayList<>();
         for (int i = 0; i < jsonArr.length(); i++) {
             String uvin = jsonArr.getJSONObject(i).getString("uvin");
             String endpoint = jsonArr.getJSONObject(i).getString("endpoint");
-            dir.add(new Directory(uvin,endpoint));
+            dir.add(new Directory(uvin, endpoint));
         }
         return dir;
     }
 
+    private List<ExtraField> getExtraFields(String rootElement) throws Exception {
+        String schemasStr = api.getSchemas().execute().body().string();
+        JsonElement jsonElementSchema = new JsonParser().parse(schemasStr);
+        JsonElement jsonElementUserExtraFields = jsonElementSchema.getAsJsonObject().get(rootElement);
+        List<ExtraField> ret = new ArrayList<>();
+        for(Map.Entry<String, JsonElement> entry : jsonElementUserExtraFields.getAsJsonObject().entrySet()){
+            boolean required = entry.getValue().getAsJsonObject().get("required").toString().trim().equalsIgnoreCase("true");
+            String strType = entry.getValue().getAsJsonObject().get("type").toString().trim();
+            strType = strType.substring(1, strType.length()-1);
+            ExtraField.EnumExtraFieldType type = ExtraField.EnumExtraFieldType.valueOf(strType.toUpperCase());
+            ret.add(new ExtraField(entry.getKey(), type, required));
+        }
+        return ret;
+    }
+
     private List<Vehicle> getVehicles(boolean fromOperator) throws Exception {
+        getUserExtraFields();
         String responseBody = null;
         if(fromOperator){
             responseBody = api.getOperatorVehicles(authToken).execute().body().string();
@@ -654,12 +724,10 @@ public class DronfiesUssServices {
                         formatDateForOperationObject(operation.getEndDatetime())
                 )
         );*/
-        Log.d("_Logs", operation.getStartDatetime() + "");
-        Log.d("_Logs", formatDateForOperationObject(operation.getStartDatetime()));
         List<OperationVolume> operationVolumes = Arrays.asList(
                 new OperationVolume(
-                    formatDateForOperationObject(operation.getStartDatetime()),
-                        formatDateForOperationObject(operation.getEndDatetime()),
+                    formatDateForOperationOrVehicleObject(operation.getStartDatetime()),
+                        formatDateForOperationOrVehicleObject(operation.getEndDatetime()),
                         -1,
                         operation.getMaxAltitude(),
                         new OperationGeography(
@@ -766,7 +834,7 @@ public class DronfiesUssServices {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(strDatetime.replaceAll("T", " ").replaceAll("Z", ""));
     }
 
-    private String formatDateForOperationObject(Date date){
+    private String formatDateForOperationOrVehicleObject(Date date){
         // example: 2019-12-11T19:59:10Z
         return new SimpleDateFormat("yyyy-MM-dd").format(date) + "T" + new SimpleDateFormat("HH:mm:ss").format(date) + "Z";
     }
@@ -846,6 +914,31 @@ public class DronfiesUssServices {
                 throw new NotFoundException("404: Not Found");
             default:
               throw new Exception("500: Internal server error");
+        }
+    }
+
+    private JsonObject vehicleToJsonObject(Vehicle vehicle){
+        JsonObject ret = new JsonObject();
+        ret.addProperty("date", formatDateForOperationOrVehicleObject(vehicle.getDate()));
+        ret.addProperty("nNumber", vehicle.getnNumber());
+        ret.addProperty("faaNumber", vehicle.getFaaNumber());
+        ret.addProperty("vehicleName", vehicle.getVehicleName());
+        ret.addProperty("manufacturer", vehicle.getManufacturer());
+        ret.addProperty("model", vehicle.getModel());
+        ret.addProperty("class", vehicle.getVehicleClass().name());
+        JsonObject jsonObjectOwner = new JsonObject();
+        jsonObjectOwner.addProperty("username", getUsername());
+        ret.add("date", jsonObjectOwner);
+        return ret;
+    }
+
+    private RequestBody getRequestBody(String value){
+        return RequestBody.create(MediaType.parse("text/plain"), value);
+    }
+
+    private void validateVehicle(Vehicle vehicle) throws Exception{
+        if(vehicle.getVehicleName() == null || vehicle.getVehicleName().length() < 2 || vehicle.getVehicleName().length() > 255){
+            throw new Exception("vehicleName can't be null, and must have 2 to 255 characters");
         }
     }
 }

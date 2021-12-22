@@ -1,5 +1,10 @@
 package com.dronfies.portableutmandroidclienttest;
 
+import com.google.gson.JsonObject;
+
+import java.util.List;
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -11,6 +16,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -52,6 +58,22 @@ interface IRetrofitAPI {
     @GET("vehicle/{id}")
     Call<ResponseBody> getVehicleById(@Header("auth") String authToken, @Path("id") String id);
 
+    @Multipart
+    @POST("vehicle")
+    Call<ResponseBody> postVehicle(
+            @Header("auth") String authToken,
+            @Part List<MultipartBody.Part> files,
+            @Part("date") RequestBody date,
+            @Part("nNumber") RequestBody nNumber,
+            @Part("faaNumber") RequestBody faaNumber,
+            @Part("vehicleName") RequestBody vehicleName,
+            @Part("manufacturer") RequestBody manufacturer,
+            @Part("model") RequestBody model,
+            @Part("class") RequestBody clazz,
+            @Part("owner_id") RequestBody ownerId,
+            @Part("extra_fields_str") RequestBody serialNumber
+    );
+
     @GET("restrictedflightvolume")
     Call<ResponseBody> getRestrictedFlightVolumes(@Header("auth") String authToken);
 
@@ -79,5 +101,8 @@ interface IRetrofitAPI {
 
     @GET("user/{id}")
     Call<User> getUser(@Header("auth") String authToken, @Path("id") String id);
+
+    @GET("schemas")
+    Call<ResponseBody> getSchemas();
 
 }
