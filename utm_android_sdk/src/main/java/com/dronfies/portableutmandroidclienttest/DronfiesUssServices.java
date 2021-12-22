@@ -608,17 +608,10 @@ public class DronfiesUssServices {
             socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                    Log.e("SOCKET ERROR","eventConnectError");
-                    for(Object o : args){
-                        Log.d("SOCKET ERROR", "object: " + o.toString());
-                        if(o instanceof SocketIOException)
-                            ((SocketIOException) o).printStackTrace();
-                    }
                 }
             }).on(Socket.EVENT_ERROR, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                    Log.d("SOCKET ERROR", "eventError");
                 }
             });
             socket.connect();
