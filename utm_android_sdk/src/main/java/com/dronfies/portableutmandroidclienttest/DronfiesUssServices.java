@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -598,7 +599,9 @@ public class DronfiesUssServices {
                         double latitude = jsonObject.getDouble("latitude");
                         double longitude = jsonObject.getDouble("longitude");
                         double altitude = jsonObject.getDouble("altitude");
-                        TrackerPosition trackerPosition = new TrackerPosition(latitude, longitude, altitude);
+                        double heading = jsonObject.getDouble("heading");
+                        Date time_sent = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(jsonObject.getString("time_sent").replaceAll("T", " ").replaceAll("Z", ""));
+                        TrackerPosition trackerPosition = new TrackerPosition(latitude, longitude, altitude, heading, time_sent);
                         callback.onCallbackExecution(trackerPosition, null);
                     }catch (Exception ex){
                         callback.onCallbackExecution(null, ex.getMessage());
