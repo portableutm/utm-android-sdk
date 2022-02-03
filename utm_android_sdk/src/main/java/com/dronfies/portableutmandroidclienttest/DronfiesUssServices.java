@@ -443,12 +443,12 @@ public class DronfiesUssServices {
         });
     }
 
-    public List<Vehicle> getVehicles() throws Exception {
-        return getVehicles(false);
+    public void getVehicles(Integer take, Integer skip, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
+        getVehicles(take, skip,false, callback);
     }
 
-    public List<Vehicle> getOperatorVehicles() throws Exception {
-        return getVehicles(true);
+    public void getOperatorVehicles(Integer take, Integer skip, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
+        getVehicles(take, skip,true, callback);
     }
 
     public Vehicle getVehicleById(String id) throws Exception {
@@ -670,21 +670,52 @@ public class DronfiesUssServices {
         return ret;
     }
 
-    private List<Vehicle> getVehicles(boolean fromOperator) throws Exception {
+
+    private void getVehicles(Integer take, Integer skip, boolean fromOperator, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
+        if(authToken == null || mUsername == null){
+            throw new NoAuthenticatedException("You must call login method, before calling this method");
+        }
         getUserExtraFields();
-        String responseBody = null;
+        Call<ResponseBody> call;
         if(fromOperator){
-            responseBody = api.getOperatorVehicles(authToken).execute().body().string();
+            call = api.getOperatorVehicles(authToken, take, skip);
         }else{
-            responseBody = api.getVehicles(authToken).execute().body().string();
+            call = api.getVehicles(authToken, take, skip);
         }
-        JSONArray jsonArrayVehicles = new JSONArray(responseBody);
-        List<Vehicle> ret = new ArrayList<>();
-        for(int i = 0; i < jsonArrayVehicles.length(); i++){
-            JSONObject jsonObject = jsonArrayVehicles.getJSONObject(i);
-            ret.add(parseVehicle(jsonObject));
-        }
-        return ret;
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(!response.isSuccessful()){
+                    callback.onResponse(null, response.code() + " ("+response.getClass()+")");
+                    return;
+                }
+                List<Vehicle> listVehicles = new ArrayList<>();
+                String responseBody = null;
+                try {
+                    responseBody = response.body().string();
+                    JSONObject responseObject = new JSONObject(responseBody);
+                    JSONArray jsonArrayVehicles = responseObject.getJSONArray("vehicles");
+                    for(int i = 0; i < jsonArrayVehicles.length(); i++){
+                        JSONObject jsonObject = jsonArrayVehicles.getJSONObject(i);
+                        listVehicles.add(parseVehicle(jsonObject));
+                    }
+
+                    callback.onResponse(listVehicles, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onResponse(null, t.getMessage());
+            }
+        });
     }
 
     private Operation transformOperation(com.dronfies.portableutmandroidclienttest.entities.Operation operation){

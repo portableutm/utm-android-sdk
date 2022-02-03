@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dronfies.portableutmandroidclienttest.entities.ICompletitionCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -71,9 +72,19 @@ public class VehiclesActivity extends AppCompatActivity {
             try {
                 final List<Vehicle>[] vehicleList = new List[1];
                 if(mFromOperator){
-                    vehicleList[0] = dronfiesUssServices.getOperatorVehicles();
+                    dronfiesUssServices.getOperatorVehicles(10, 0, new ICompletitionCallback<List<Vehicle>>() {
+                        @Override
+                        public void onResponse(List<Vehicle> vehicles, String errorMessage) {
+                            vehicleList[0]=vehicles;
+                        }
+                    });
                 }else{
-                    vehicleList[0] = dronfiesUssServices.getVehicles();
+                    dronfiesUssServices.getVehicles(10, 0, new ICompletitionCallback<List<Vehicle>>() {
+                        @Override
+                        public void onResponse(List<Vehicle> vehicles, String errorMessage) {
+                            vehicleList[0]=vehicles;
+                        }
+                    });
                 }
                 vehicleCount = vehicleList[0].size();
                 runOnUiThread(new Runnable() {

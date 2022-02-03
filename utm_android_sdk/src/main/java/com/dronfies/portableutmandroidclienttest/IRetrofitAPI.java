@@ -50,10 +50,10 @@ interface IRetrofitAPI {
     Call<Object> deleteOperation(@Header("auth") String authToken, @Path("id") String id);
 
     @GET("vehicle")
-    Call<ResponseBody> getVehicles(@Header("auth") String authToken);
+    Call<ResponseBody> getVehicles(@Header("auth") String authToken, @Query("take") int take, @Query("skip") int skip);
 
     @GET("vehicle/operator")
-    Call<ResponseBody> getOperatorVehicles(@Header("auth") String authToken);
+    Call<ResponseBody> getOperatorVehicles(@Header("auth") String authToken,  @Query("take") int take, @Query("skip") int skip);
 
     @GET("vehicle/{id}")
     Call<ResponseBody> getVehicleById(@Header("auth") String authToken, @Path("id") String id);

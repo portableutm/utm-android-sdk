@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -295,6 +296,7 @@ class DronfiesUssServicesTest {
     void getVehicles() {
         String file = "src/test/resources/testVehicles.json";
         try {
+            CountDownLatch lock = new CountDownLatch(1);
             String json = readFileAsString(file);
 
             MockResponse response = new MockResponse();
@@ -302,9 +304,14 @@ class DronfiesUssServicesTest {
                     .setResponseCode(HttpURLConnection.HTTP_OK)
                     .setBody(json);
             server.enqueue(response);
-
-            List<Vehicle> vehicles = dronfiesUssServices.getVehicles();
-            assertEquals(vehicles.get(1).getUvin(), "e4278f4f-497c-4bde-b7a2-560db61f5420");
+            dronfiesUssServices.getVehicles(10, 0, new ICompletitionCallback<List<Vehicle>>() {
+                @Override
+                public void onResponse(List<Vehicle> vehicles, String errorMessage) {
+                    assertEquals(vehicles.get(1).getUvin(), "e4278f4f-497c-4bde-b7a2-560db61f5420");
+                    lock.countDown();
+                }
+            });
+            lock.wait();
         } catch (Exception e) {
             e.printStackTrace();
             fail();
