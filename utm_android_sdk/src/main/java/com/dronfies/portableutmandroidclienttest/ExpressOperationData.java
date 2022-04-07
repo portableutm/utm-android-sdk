@@ -7,12 +7,14 @@ public class ExpressOperationData {
     private float radius;
     private int duration;
     private String vehicleId;
+    private String phone;
 
-    public ExpressOperationData(LatLng location, float radius, int duration, String vehicleId) {
+    public ExpressOperationData(LatLng location, float radius, int duration, String vehicleId, String phone) {
         this.location = location;
         this.radius = radius;
         this.duration = duration;
         this.vehicleId = vehicleId;
+        this.phone = phone;
     }
 
     public LatLng getLocation() {
@@ -45,5 +47,13 @@ public class ExpressOperationData {
 
     public void setVehicleId(String vehicleId) {
         this.vehicleId = vehicleId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

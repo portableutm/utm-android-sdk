@@ -581,6 +581,51 @@ public class DronfiesUssServices {
         Tracker tracker = new Tracker(trackerId,uvin);
         api.registerTracker(authToken, tracker).execute();
     }
+
+    public String connectToOperationUpdates(String operationId, IGenericCallback<TrackerPosition> callback) throws NoAuthenticatedException {
+        if(authToken == null || mUsername == null){
+            throw new NoAuthenticatedException("You must call login method, before calling this method");
+        }
+        try {
+            IO.Options options = new IO.Options();
+            options.query = String.format("token=%s", authToken);
+            Socket socket = IO.socket(String.format("%s/private", utmEndpoint), options);
+            String eventName = String.format("new-tracker-position[gufi=%s]", operationId);
+            socket.on(eventName, new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    try{
+                        JSONObject jsonObject = (JSONObject)objects[0];
+                        double latitude = jsonObject.getDouble("latitude");
+                        double longitude = jsonObject.getDouble("longitude");
+                        double altitude = jsonObject.getDouble("altitude");
+                        double heading = jsonObject.getDouble("heading");
+                        Date time_sent = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(jsonObject.getString("time_sent").replaceAll("T", " ").replaceAll("Z", ""));
+                        TrackerPosition trackerPosition = new TrackerPosition(latitude, longitude, altitude, heading, time_sent);
+                        callback.onCallbackExecution(trackerPosition, null);
+                    }catch (Exception ex){
+                        callback.onCallbackExecution(null, ex.getMessage());
+                    }
+                }
+            });
+            socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                }
+            }).on(Socket.EVENT_ERROR, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                }
+            });
+            socket.connect();
+            String ret = UUID.randomUUID().toString();
+            mMapSockets.put(ret, socket);
+            return ret;
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String connectToTrackerPositionUpdates(String operationId, IGenericCallback<TrackerPosition> callback) throws NoAuthenticatedException {
         if(authToken == null || mUsername == null){
             throw new NoAuthenticatedException("You must call login method, before calling this method");
