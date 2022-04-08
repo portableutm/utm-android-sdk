@@ -52,8 +52,14 @@ interface IRetrofitAPI {
     @GET("vehicle")
     Call<ResponseBody> getVehicles(@Header("auth") String authToken, @Query("take") int take, @Query("skip") int skip);
 
+    @GET("vehicle")
+    Call<ResponseBody> getVehicles(@Header("auth") String authToken, @Query("take") int take, @Query("skip") int skip, String filterBy, String filter);
+
     @GET("vehicle/operator")
     Call<ResponseBody> getOperatorVehicles(@Header("auth") String authToken,  @Query("take") int take, @Query("skip") int skip);
+
+    @GET("vehicle/operator")
+    Call<ResponseBody> getOperatorVehicles(@Header("auth") String authToken,  @Query("take") int take, @Query("skip") int skip, String filterBy, String filter);
 
     @GET("vehicle/{id}")
     Call<ResponseBody> getVehicleById(@Header("auth") String authToken, @Path("id") String id);

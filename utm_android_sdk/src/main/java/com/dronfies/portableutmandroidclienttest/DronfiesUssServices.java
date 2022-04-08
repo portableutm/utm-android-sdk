@@ -444,11 +444,17 @@ public class DronfiesUssServices {
     }
 
     public void getVehicles(Integer take, Integer skip, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
-        getVehicles(take, skip,false, callback);
+        getVehicles("","",take, skip,false, callback);
+    }
+    public void getVehicles(String filterBy, String filter,Integer take, Integer skip, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
+        getVehicles(filterBy, filter,take, skip,false, callback);
     }
 
     public void getOperatorVehicles(Integer take, Integer skip, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
-        getVehicles(take, skip,true, callback);
+        getVehicles("","",take, skip,true, callback);
+    }
+    public void getOperatorVehicles(String filterBy,String filter,Integer take, Integer skip, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
+        getVehicles(filterBy,filter,take, skip,true, callback);
     }
 
     public Vehicle getVehicleById(String id) throws Exception {
@@ -716,16 +722,24 @@ public class DronfiesUssServices {
     }
 
 
-    private void getVehicles(Integer take, Integer skip, boolean fromOperator, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
+    private void getVehicles(String filterBy, String filter,Integer take, Integer skip, boolean fromOperator, final ICompletitionCallback<List<Vehicle>> callback) throws Exception {
         if(authToken == null || mUsername == null){
             throw new NoAuthenticatedException("You must call login method, before calling this method");
         }
         getUserExtraFields();
         Call<ResponseBody> call;
         if(fromOperator){
-            call = api.getOperatorVehicles(authToken, take, skip);
+            if(filterBy.isEmpty()) {
+                call = api.getOperatorVehicles(authToken, take, skip);
+            } else {
+                call = api.getOperatorVehicles(authToken, take, skip, filterBy, filter);
+            }
         }else{
-            call = api.getVehicles(authToken, take, skip);
+            if (filterBy.isEmpty()){
+                call = api.getVehicles(authToken, take, skip);
+            } else {
+                call = api.getVehicles(authToken, take, skip, filterBy, filter);
+            }
         }
         call.enqueue(new Callback<ResponseBody>() {
             @Override
