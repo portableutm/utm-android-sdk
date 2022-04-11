@@ -509,7 +509,8 @@ public class DronfiesUssServices {
 
     public List<RestrictedFlightVolume> getRestrictedFlightVolumes() throws Exception {
         String responseBody = api.getRestrictedFlightVolumes(authToken).execute().body().string();
-        JSONArray jsonArrayRFVs = new JSONArray(responseBody);
+        JSONObject object = new JSONObject(responseBody);
+        JSONArray jsonArrayRFVs = object.getJSONArray("rfvs");
         List<RestrictedFlightVolume> ret = new ArrayList<>();
         for(int i = 0; i  < jsonArrayRFVs.length(); i++){
             JSONObject jsonObject = jsonArrayRFVs.getJSONObject(i);
@@ -517,6 +518,7 @@ public class DronfiesUssServices {
         }
         return ret;
     }
+
 
     public List<Endpoint> getEndpoints() throws Exception {
         String responseBody = api.getEndpoints().execute().body().string();
