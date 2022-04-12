@@ -43,6 +43,9 @@ interface IRetrofitAPI {
     @GET("operation/owner")
     Call<Object> getOperations(@Header("auth") String authToken, @Query("take") int limit, @Query("skip") int offset);
 
+    @GET("operation/owner")
+    Call<Object> getOperations(@Header("auth") String authToken, @Query("take") int limit, @Query("skip") int offset, @Query("states") String states);
+
     @GET("operation/{id}")
     Call<Object> getOperationById(@Header("auth") String authToken, @Path("id") String id);
 

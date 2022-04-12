@@ -375,16 +375,23 @@ public class DronfiesUssServices {
     }
 
     public void getOperations(final ICompletitionCallback<List<com.dronfies.portableutmandroidclienttest.entities.Operation>> callback) throws NoAuthenticatedException {
-        getOperations(null, null, callback);
+        getOperations(null, null,null, callback);
     }
 
-    public void getOperations(Integer limit, Integer offset, final ICompletitionCallback<List<com.dronfies.portableutmandroidclienttest.entities.Operation>> callback) throws NoAuthenticatedException {
+    public void getOperations(Integer limit, Integer offset, List<String> states, final ICompletitionCallback<List<com.dronfies.portableutmandroidclienttest.entities.Operation>> callback) throws NoAuthenticatedException {
         if(authToken == null || mUsername == null){
             throw new NoAuthenticatedException("You must call login method, before calling this method");
         }
         Call<Object> call = api.getOperations(authToken);
         if(limit != null && offset != null){
             call = api.getOperations(authToken, limit, offset);
+            if (states != null && !states.isEmpty()) {
+                JSONArray arrayStates = new JSONArray();
+                for (int i = 0; i < states.size(); i++) {
+                    arrayStates.put(states.get(i));
+                }
+                call = api.getOperations(authToken,limit, offset, arrayStates.toString());
+            }
         }
         call.enqueue(new Callback<Object>() {
             @Override
