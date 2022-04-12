@@ -519,6 +519,17 @@ public class DronfiesUssServices {
         return ret;
     }
 
+    public List<UASVolumeReservation> getUASVolumes() throws Exception{
+        String responseBody = api.getUASVolume(authToken).execute().body().string();
+        JSONObject object = new JSONObject(responseBody);
+        JSONArray jsonArrayUVRs = object.getJSONArray("uvrs");
+        List<UASVolumeReservation> ret = new ArrayList<>();
+        for(int i = 0; i  < jsonArrayUVRs.length(); i++){
+            JSONObject jsonObject = jsonArrayUVRs.getJSONObject(i);
+            ret.add(parseUVR(jsonObject));
+        }
+        return ret;
+    }
 
     public List<Endpoint> getEndpoints() throws Exception {
         String responseBody = api.getEndpoints().execute().body().string();
@@ -960,6 +971,27 @@ public class DronfiesUssServices {
             authorization = Vehicle.EnumVehicleAuthorization.valueOf(jsonObjectVehicle.getString("authorized").toUpperCase().trim());
         }catch (Exception ex){}
         return new Vehicle(uvin, date, nNumber, faaNumber, vehicleName, manufacturer, model, vehicleClass, registeredBy, owner, authorization);
+    }
+
+    private UASVolumeReservation parseUVR(JSONObject jsonObjectUVR) throws Exception {
+        String message_id = getStringValueFromJSONObject(jsonObjectUVR, "message_id");
+        int minAltitude = Integer.parseInt(getStringValueFromJSONObject(jsonObjectUVR, "min_altitude"));
+        int maxAltitude = Integer.parseInt(getStringValueFromJSONObject(jsonObjectUVR, "max_altitude"));
+        String reason = getStringValueFromJSONObject(jsonObjectUVR, "reason");
+        Date begin = parseDate(getStringValueFromJSONObject(jsonObjectUVR, "effective_time_begin"));
+        Date end = parseDate(getStringValueFromJSONObject(jsonObjectUVR, "effective_time_end"));
+        String cause = getStringValueFromJSONObject(jsonObjectUVR, "cause");
+        String type = getStringValueFromJSONObject(jsonObjectUVR, "type");
+        List<LatLng> polygon = new ArrayList<>();
+        JSONArray jsonArrayCoordinates = (JSONArray) jsonObjectUVR.getJSONObject("geography").getJSONArray("coordinates").get(0);
+        for(int i = 0; i < jsonArrayCoordinates.length(); i++){
+            double lat = ((JSONArray)jsonArrayCoordinates.get(i)).getDouble(1);
+            double lng = ((JSONArray)jsonArrayCoordinates.get(i)).getDouble(0);
+            polygon.add(new LatLng(lat, lng));
+        }
+        return new UASVolumeReservation(message_id,type,cause, polygon,begin,end,minAltitude,maxAltitude,reason);
+
+
     }
 
     private RestrictedFlightVolume parseRFV(JSONObject jsonObjectRFV) throws Exception {

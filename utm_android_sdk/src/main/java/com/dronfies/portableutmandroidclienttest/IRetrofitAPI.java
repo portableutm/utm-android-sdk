@@ -83,6 +83,9 @@ interface IRetrofitAPI {
     @GET("restrictedflightvolume")
     Call<ResponseBody> getRestrictedFlightVolumes(@Header("auth") String authToken);
 
+    @GET("uasvolume")
+    Call<ResponseBody> getUASVolume(@Header("auth") String authToken);
+
     @GET("endpoints")
     Call<ResponseBody> getEndpoints();
 
