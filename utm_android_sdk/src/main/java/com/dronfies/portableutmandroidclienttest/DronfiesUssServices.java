@@ -857,9 +857,8 @@ public class DronfiesUssServices {
         );
         return new Operation(
                 operation.getDescription(),
-                "",
+                operation.getFlightComments(),
                 "Simple polygon",
-                "",
                 submitDate,
                 submitDate,
                 0,
