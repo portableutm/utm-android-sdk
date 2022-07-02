@@ -7,11 +7,13 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,7 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.dronfies.portableutmandroidclienttest.entities.IGenericCallback;
 import com.dronfies.portableutmandroidclienttest.entities.Operation;
+import com.dronfies.portableutmandroidclienttest.entities.OperationStateUpdate;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -72,10 +76,11 @@ public class OperationInfoActivity extends AppCompatActivity {
         mComments = findViewById(R.id.activity_flightComments);
         mId = findViewById(R.id.activity_opId);
         mStatus = findViewById(R.id.activity_status);
-        ((Button) findViewById(R.id.button_change_state)).setOnClickListener(v -> onClickChangeState());
-        ((Button) findViewById(R.id.button_upload_dat_file)).setOnClickListener(v -> onClickUploadDatFile());
-        ((Button) findViewById(R.id.button_send_pilot_position)).setOnClickListener(v -> onClickSendPilotPosition());
-        ((Button) findViewById(R.id.button_check_tracker_position)).setOnClickListener(v -> onClickCheckTrackerPosition());
+        findViewById(R.id.button_change_state).setOnClickListener(v -> onClickChangeState());
+        findViewById(R.id.button_upload_dat_file).setOnClickListener(v -> onClickUploadDatFile());
+        findViewById(R.id.button_send_pilot_position).setOnClickListener(v -> onClickSendPilotPosition());
+        findViewById(R.id.button_check_tracker_position).setOnClickListener(v -> onClickCheckTrackerPosition());
+        findViewById(R.id.button_check_state_updates).setOnClickListener(v -> onClickCheckStateUpdates());
 
         id = getIntent().getStringExtra("operation");
         endPoint = getIntent().getStringExtra("utmEndpoint");
@@ -172,6 +177,42 @@ public class OperationInfoActivity extends AppCompatActivity {
                 TrackerPositionActivity.class,
                 Arrays.asList(Constants.ENDPOINT_KEY, Constants.OPERATION_ID_KEY),
                 Arrays.asList(endPoint, id));
+    }
+
+    private void onClickCheckStateUpdates() {
+        DronfiesUssServices dronfiesUssServices = DronfiesUssServices.getInstance(endPoint);
+        final String[] updatesRef = {null};
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("<STATE>")
+                .setMessage("<MESSAGE>")
+                .setCancelable(false)
+                .setNegativeButton(R.string.stop, (dialogInterface, i) -> {
+                    if(updatesRef[0] == null){
+                        runOnUiThread(() -> UIGenericUtils.ShowAlert(OperationInfoActivity.this, getString(R.string.wait)));
+                        return;
+                    }
+                    runOnUiThread(() -> dialogInterface.dismiss());
+                    dronfiesUssServices.disconnectFromUpdates(updatesRef[0]);
+                })
+                .show();
+
+        try {
+            updatesRef[0] = dronfiesUssServices.connectToOperationStateUpdates(id, (operationStateUpdate, errorMessage) -> {
+                if(errorMessage != null){
+                    runOnUiThread(() -> {
+                        alertDialog.setTitle("ERROR");
+                        alertDialog.setMessage(errorMessage);
+                    });
+                    return;
+                }
+                runOnUiThread(() -> {
+                    alertDialog.setTitle(operationStateUpdate.getState().name());
+                    alertDialog.setMessage(operationStateUpdate.getMessage());
+                });
+            });
+        } catch (NoAuthenticatedException e) {
+            UIGenericUtils.ShowAlert(OperationInfoActivity.this, e.getMessage());
+        }
     }
 
     private void uploadDatFile(){

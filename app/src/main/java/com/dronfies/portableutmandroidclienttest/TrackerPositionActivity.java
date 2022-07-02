@@ -59,7 +59,7 @@ public class TrackerPositionActivity extends AppCompatActivity {
 
     private void disconnectTrackerPositionUpdate(){
         try{
-            DronfiesUssServices.getInstance(mEndpoint).disconnectFromTrackerPositionUpdates(mTrackerPositionRef);
+            DronfiesUssServices.getInstance(mEndpoint).disconnectFromUpdates(mTrackerPositionRef);
         }catch (Exception ex){
             ex.printStackTrace();
         }

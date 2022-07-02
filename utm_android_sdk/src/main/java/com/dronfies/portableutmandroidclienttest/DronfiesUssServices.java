@@ -1,9 +1,12 @@
 package com.dronfies.portableutmandroidclienttest;
 
+import android.util.Log;
+
 import com.dronfies.portableutmandroidclienttest.entities.ExtraField;
 import com.dronfies.portableutmandroidclienttest.entities.GPSCoordinates;
 import com.dronfies.portableutmandroidclienttest.entities.ICompletitionCallback;
 import com.dronfies.portableutmandroidclienttest.entities.IGenericCallback;
+import com.dronfies.portableutmandroidclienttest.entities.OperationStateUpdate;
 import com.dronfies.portableutmandroidclienttest.exception.BadRequestException;
 import com.dronfies.portableutmandroidclienttest.exception.NotFoundException;
 import com.google.android.gms.maps.model.LatLng;
@@ -697,6 +700,45 @@ public class DronfiesUssServices {
         }
     }
 
+    public String connectToOperationStateUpdates(String operationId, IGenericCallback<OperationStateUpdate> callback) throws NoAuthenticatedException {
+        if(authToken == null || mUsername == null){
+            throw new NoAuthenticatedException("You must call login method, before calling this method");
+        }
+        try {
+            IO.Options options = new IO.Options();
+            options.query = String.format("token=%s", authToken);
+            Socket socket = IO.socket(String.format("%s/private", utmEndpoint), options);
+            String eventName = String.format("operation-state[gufi=%s]", operationId);
+            socket.on(eventName, objects -> {
+                try{
+                    JSONObject jsonObject = (JSONObject)objects[0];
+                    com.dronfies.portableutmandroidclienttest.entities.Operation.EnumOperationState state = com.dronfies.portableutmandroidclienttest.entities.Operation.EnumOperationState.valueOf(jsonObject.getString("state"));
+                    String message = jsonObject.getString("message");
+                    callback.onCallbackExecution(new OperationStateUpdate(state, message), null);
+                }catch (Exception ex){
+                    callback.onCallbackExecution(null, ex.getMessage());
+                }
+            }).on(Socket.EVENT_CONNECT_ERROR, args -> {
+                callback.onCallbackExecution(null, getErrorDescription("EVENT_CONNECT_ERROR", args));
+            }).on(Socket.EVENT_ERROR, args -> {
+                callback.onCallbackExecution(null, getErrorDescription("EVENT_ERROR", args));
+            });
+            socket.connect();
+            String ret = UUID.randomUUID().toString();
+            mMapSockets.put(ret, socket);
+            return ret;
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void disconnectFromUpdates(String ref){
+        try{
+            mMapSockets.get(ref).disconnect();
+            mMapSockets.remove(ref);
+        }catch (Exception ex){}
+    }
+
     public void disconnectFromTrackerPositionUpdates(String ref){
         try{
             mMapSockets.get(ref).disconnect();
@@ -715,6 +757,19 @@ public class DronfiesUssServices {
     //----------------------------------------------------------------------------------------------------
     //----------------------------------------- PRIVATE METHODS  -----------------------------------------
     //----------------------------------------------------------------------------------------------------
+
+    private String getErrorDescription(String errorName, Object[] args){
+        String strArgs = "";
+        if(args != null){
+            strArgs += "[";
+            for(int i = 0; i < args.length; i++){
+                strArgs += args[i] + ", ";
+            }
+            if(strArgs.endsWith(", ")) strArgs = strArgs.substring(0, strArgs.length() - 2);
+            strArgs += "]";
+        }
+        return errorName + " (args: "+strArgs+")";
+    }
 
     private List<Directory> parseDirectory(JSONArray jsonArr) throws JSONException {
         List<Directory> dir = new ArrayList<>();
