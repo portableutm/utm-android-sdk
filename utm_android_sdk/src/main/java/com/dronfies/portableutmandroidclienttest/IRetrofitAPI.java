@@ -89,6 +89,9 @@ interface IRetrofitAPI {
     @GET("uasvolume")
     Call<ResponseBody> getUASVolume(@Header("auth") String authToken);
 
+    @GET("uasvolume/{id}")
+    Call<ResponseBody> getUASVolumeById(@Header("auth") String authToken, @Path("id") String id);
+
     @GET("endpoints")
     Call<ResponseBody> getEndpoints();
 

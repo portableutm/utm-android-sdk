@@ -541,6 +541,12 @@ public class DronfiesUssServices {
         return ret;
     }
 
+    public UASVolumeReservation getUASVolumeReservationById_sync(String id) throws Exception {
+        String responseBody = api.getUASVolumeById(authToken,id).execute().body().string();
+        JSONObject jsonUVR = new JSONObject(responseBody);
+        return parseUVR(jsonUVR);
+    }
+
     public List<Endpoint> getEndpoints() throws Exception {
         String responseBody = api.getEndpoints().execute().body().string();
         JSONArray jsonArrayEndpoints = new JSONArray(responseBody);
