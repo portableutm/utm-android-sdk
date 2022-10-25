@@ -940,7 +940,10 @@ public class DronfiesUssServices {
     private com.dronfies.portableutmandroidclienttest.entities.Operation getOperationFromJsonObject(JsonObject jsonObject) throws Exception {
         String id = jsonObject.get("gufi").getAsString();
         String description = jsonObject.get("name").getAsString();
-        String flightComments = jsonObject.get("flight_comments").getAsString();
+        String flightComments = "";
+        try{
+            flightComments = jsonObject.get("flight_comments").getAsString();
+        } catch (Exception ex) { }
         String pilotName = "";
         try{
             pilotName = jsonObject.get("contact").getAsString();
