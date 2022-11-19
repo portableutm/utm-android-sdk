@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -1000,7 +1001,9 @@ public class DronfiesUssServices {
     }
 
     private Date parseDate(String strDatetime) throws Exception {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(strDatetime.replaceAll("T", " ").replaceAll("Z", ""));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf.parse(strDatetime.replaceAll("T", " ").replaceAll("Z", ""));
     }
 
     private String formatDateForOperationOrVehicleObject(Date date){

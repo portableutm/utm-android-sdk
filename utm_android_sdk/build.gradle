@@ -8,7 +8,7 @@ def githubProperties = new Properties()
 githubProperties.load(new FileInputStream(rootProject.file("github.properties"))) //Set env variable GPR_USER & GPR_API_KEY if not adding a properties file
 
 def getVersionName = { ->
-    return "3.41" // Replace with version Name
+    return "3.42" // Replace with version Name
 }
 
 def getArtificatId = { ->
